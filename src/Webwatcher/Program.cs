@@ -5,12 +5,16 @@ namespace Webwatcher
 {
     internal static class Program
     {
-        static bool isChild;
-
+        /// <summary>
+        /// Webwatcher entry point
+        /// </summary>
+        /// <param name="args"></param>
         [STAThread]
         static void Main(string[] args)
         {
+            bool isChild = false;
             foreach (string arg in args) isChild = arg.Contains("-child");
+
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Browser(isChild));
         }

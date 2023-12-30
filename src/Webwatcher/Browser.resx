@@ -257,6 +257,33 @@
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <data name="AddressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="AddressBar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="AddressBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 2</value>
+  </data>
+  <data name="AddressBar.MaxLength" type="System.Int32, mscorlib">
+    <value>2048</value>
+  </data>
+  <data name="AddressBar.Multiline" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="AddressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 20</value>
+  </data>
+  <data name="AddressBar.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="AddressBar.Text" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AddressBar.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;AddressBar.Name" xml:space="preserve">
     <value>AddressBar</value>
   </data>
@@ -268,6 +295,33 @@
   </data>
   <data name="&gt;&gt;AddressBar.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="GoogleBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="GoogleBar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="GoogleBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 2</value>
+  </data>
+  <data name="GoogleBar.MaxLength" type="System.Int32, mscorlib">
+    <value>2048</value>
+  </data>
+  <data name="GoogleBar.Multiline" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GoogleBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 20</value>
+  </data>
+  <data name="GoogleBar.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="GoogleBar.Text" xml:space="preserve">
+    <value>Google search</value>
+  </data>
+  <data name="GoogleBar.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;GoogleBar.Name" xml:space="preserve">
     <value>GoogleBar</value>
@@ -315,16 +369,16 @@
     <value>NoControl</value>
   </data>
   <data name="VersionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 5</value>
+    <value>684, 5</value>
   </data>
   <data name="VersionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 14</value>
+    <value>94, 14</value>
   </data>
   <data name="VersionLabel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="VersionLabel.Text" xml:space="preserve">
-    <value>Webwatcher 1.8.1</value>
+    <value>Webwatcher 1.9</value>
   </data>
   <data name="&gt;&gt;VersionLabel.Name" xml:space="preserve">
     <value>VersionLabel</value>
@@ -447,84 +501,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;MenuBar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="AddressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="AddressBar.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="AddressBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 2</value>
-  </data>
-  <data name="AddressBar.MaxLength" type="System.Int32, mscorlib">
-    <value>2048</value>
-  </data>
-  <data name="AddressBar.Multiline" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="AddressBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>254, 20</value>
-  </data>
-  <data name="AddressBar.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="AddressBar.Text" xml:space="preserve">
-    <value>Address</value>
-  </data>
-  <data name="AddressBar.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;AddressBar.Name" xml:space="preserve">
-    <value>AddressBar</value>
-  </data>
-  <data name="&gt;&gt;AddressBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AddressBar.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;AddressBar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="GoogleBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="GoogleBar.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="GoogleBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 2</value>
-  </data>
-  <data name="GoogleBar.MaxLength" type="System.Int32, mscorlib">
-    <value>2048</value>
-  </data>
-  <data name="GoogleBar.Multiline" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GoogleBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 20</value>
-  </data>
-  <data name="GoogleBar.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="GoogleBar.Text" xml:space="preserve">
-    <value>Google search</value>
-  </data>
-  <data name="GoogleBar.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;GoogleBar.Name" xml:space="preserve">
-    <value>GoogleBar</value>
-  </data>
-  <data name="&gt;&gt;GoogleBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GoogleBar.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;GoogleBar.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <metadata name="MainTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

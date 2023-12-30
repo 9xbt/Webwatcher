@@ -10,85 +10,134 @@ using System.Windows.Forms;
 
 namespace Webwatcher
 {
-    public partial class Browser : Form
+    internal partial class Browser : Form
     {
-        private string version = "1.8.1";
+        /// <summary>
+        /// <see cref="Browser"/> version
+        /// </summary>
+        internal const string Version = "1.9";
 
-        private string settingsPath = Application.StartupPath + @"\options.txt", homepage = "";
-        public static string pageTitle;
-        private bool updateStatus, enableVisualStyles, enableUpdates;
+        /// <summary>
+        /// Settings file path
+        /// </summary>
+        private string settingsPath = Application.StartupPath + @"\options.txt";
 
-        public static ChromiumWebBrowser ChromiumPublic;
+        /// <summary>
+        /// Current page title
+        /// </summary>
+        private string pageTitle;
+        
+        /// <summary>
+        /// Browser settings
+        /// </summary>
+        private (bool updateStatus, bool enableVisualStyles, bool enableUpdates, string homepage) browserSettings;
 
-        // Startup
-
+        /// <summary>
+        /// Initializes an instance of the <see cref="Browser"/>
+        /// </summary>
+        /// <param name="isChild">Is browser a child window</param>
         public Browser(bool isChild)
         {
             InitializeComponent();
             LoadSettings(isChild);
-            Looks();
-            CheckRegistry();
+            InitUI();
+            DarkTitleBar();
             InitializeChromium();
-            ChromiumPublic = Chromium;
         }
 
+        /// <summary>
+        /// Initialize Chromium instance
+        /// </summary>
         private void InitializeChromium()
         {
-            //Browser Settings
             CefSettings settings = new CefSettings
             {
                 PersistSessionCookies = true,
-                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Webwatcher/1.8.1"
+                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Webwatcher/" + Version
             };
-            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "AIzaSyATornPGCHzlrg6QpocFceLkZQVvap0WOM");
-            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "580109901678-obrsaugnt1n15811rggr6a4rsg0ojrbh.apps.googleusercontent.com");
-            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "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");
-            Cef.Initialize(settings);
-            
+
+            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Google.API.ApiKeys.GOOGLE_API_KEY);
+            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", Google.API.ApiKeys.GOOGLE_DEFAULT_CLIENT_ID);
+            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", Google.API.ApiKeys.GOOGLE_DEFAULT_CLIENT_SECRET);
+
+            if (!Cef.Initialize(settings))
+            {
+                MessageBox.Show("CEF failed to initialize! Expect to not be able to log into Google accounts", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Logger.Log("CEF failed to initialize! Expect to not be able to log into Google accounts");
+            }
+            else Logger.Log("Chromium initialized successfully");
+
             Invoke(new Action(() =>
             {
-                Chromium.LoadUrl(homepage);
-                AddressBar.Text = homepage;
+                Logger.Log("Loading homepage...");
+                Chromium.LoadUrl(browserSettings.homepage);
+                AddressBar.Text = browserSettings.homepage;
                 AddressBar.ForeColor = Color.Black;
+                Logger.Log("Done loading homepage!");
             }));
+            
+            Logger.Log("Everything initialized successfully, welcome back to Webwatcher!");
         }
 
         [DllImport("DwmApi")]
         static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
 
-        private void CheckRegistry()
+        /// <summary>
+        /// Makes the title bar dark depending on the system settings
+        /// </summary>
+        private void DarkTitleBar()
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"))
-                if (!Convert.ToBoolean(key.GetValue("AppsUseLightTheme", RegistryValueOptions.None)) && key != null && DwmSetWindowAttribute(Handle, 19, new[] { 1 }, 4) != 0)
-                    DwmSetWindowAttribute(Handle, 20, new[] { 1 }, 4);
-        }
-
-        private void LoadSettings(bool isChild)
-        {
-            if (!File.Exists(settingsPath))
-                File.WriteAllText(settingsPath, "showpagestatus=false\nenableanimations=true\nenableupdates=true\nhomepage=https://google.com");
-
-            foreach (string line in File.ReadAllLines(settingsPath))
             {
-                if (line.Trim().ToLower().StartsWith("showpagestatus=") && line.Contains("true"))
-                    updateStatus = true;
-
-                if (!isChild && line.Trim().ToLower().StartsWith("enableanimations=") && line.Contains("true"))
-                    enableVisualStyles = true;
-
-                if (line.Trim().ToLower().StartsWith("enableupdates=") && line.Contains("true"))
-                    enableUpdates = true;
-
-                if (line.Trim().ToLower().StartsWith("homepage="))
-                    homepage = line.Split('=')[1];
+                if (!Convert.ToBoolean(key.GetValue("AppsUseLightTheme", RegistryValueOptions.None)) && key != null && DwmSetWindowAttribute(Handle, 19, new[] { 1 }, 4) != 0)
+                {
+                    DwmSetWindowAttribute(Handle, 20, new[] { 1 }, 4);
+                }
             }
         }
 
-        private void Looks()
+        /// <summary>
+        /// Loads the browser settings
+        /// </summary>
+        /// <param name="isChild">Is browser a child window</param>
+        private void LoadSettings(bool isChild)
         {
-            VersionLabel.Text = "Webwatcher " + version;
-            Text = "Webwatcher " + version;
-            if (enableVisualStyles)
+            if (!File.Exists(settingsPath)) File.WriteAllText(settingsPath,
+                                                             "showpagestatus=false\n" +
+                                                             "enableanimations=true\n" +
+                                                             "enableupdates=true\n" +
+                                                             "homepage=https://google.com");
+
+            foreach (string line in File.ReadAllLines(settingsPath))
+            {
+                switch (line.Trim().ToLower())
+                {
+                    // replace a with line if it doesn't work
+                    
+                    case { } a when a.StartsWith("showpagestatus="):
+                        browserSettings.updateStatus = a.EndsWith("true");
+                        break;
+
+                    case { } a when a.StartsWith("enableanimations="):
+                        browserSettings.enableVisualStyles = a.EndsWith("true") && !isChild;
+                        break;
+
+                    case { } a when a.StartsWith("enableupdates="):
+                        browserSettings.enableUpdates = a.EndsWith("true");
+                        break;
+
+                    case { } a when a.StartsWith("homepage="):
+                        browserSettings.homepage = a.Split('=')[1];
+                        break;
+                }
+            }
+        }
+
+        private void InitUI()
+        {
+            VersionLabel.Text = "Webwatcher " + Version;
+            Text = "Webwatcher " + Version;
+            if (browserSettings.enableVisualStyles)
             {
                 Opacity = 0;
                 ClientSize = new Size(0, 0);
@@ -174,7 +223,7 @@ namespace Webwatcher
         {
             Invoke(new Action(() =>
             {
-                Text = e.Title + " - Webwatcher " + version;
+                Text = e.Title + " - Webwatcher " + Version;
                 pageTitle = e.Title;
             }));
         }
@@ -212,7 +261,7 @@ namespace Webwatcher
                     else if (URL == ("webwatcher://changelog"))
                         Chromium.LoadUrl(Links.ChangelogPage);
                     else if (URL.StartsWith("webwatcher://settings"))
-                        Chromium.LoadUrl(Links.SettingsPage + "?showpagestatus=" + updateStatus.ToString().ToLower() + "&enableanimations=" + enableVisualStyles.ToString().ToLower() + "&enableupdates=" + enableUpdates.ToString().ToLower() + "&homepage=" + homepage.ToLower());
+                        Chromium.LoadUrl(Links.SettingsPage + "?showpagestatus=" + browserSettings.updateStatus.ToString().ToLower() + "&enableanimations=" + browserSettings.enableVisualStyles.ToString().ToLower() + "&enableupdates=" + browserSettings.enableUpdates.ToString().ToLower() + "&homepage=" + browserSettings.homepage.ToLower());
                     else if (URL ==("webwatcher://error"))
                         Chromium.LoadUrl(Links.ErrorPage);
                 }
@@ -264,7 +313,7 @@ namespace Webwatcher
 
         private void NewTab_Click(object sender, EventArgs e) => Process.Start(Application.StartupPath + @"\Webwatcher.exe", "-child");
 
-        private void Settings_Click(object sender, EventArgs e) => Chromium.LoadUrl(Links.SettingsPage + "?showpagestatus=" + updateStatus.ToString().ToLower() + "&enableanimations=" + enableVisualStyles.ToString().ToLower() + "&enableupdates=" + enableUpdates.ToString().ToLower() + "&homepage=" + homepage.ToLower());
+        private void Settings_Click(object sender, EventArgs e) => Chromium.LoadUrl(Links.SettingsPage + "?showpagestatus=" + browserSettings.updateStatus.ToString().ToLower() + "&enableanimations=" + browserSettings.enableVisualStyles.ToString().ToLower() + "&enableupdates=" + browserSettings.enableUpdates.ToString().ToLower() + "&homepage=" + browserSettings.homepage.ToLower());
 
         private void Button_Forward_Click(object sender, EventArgs e) => Chromium.Forward();
 
