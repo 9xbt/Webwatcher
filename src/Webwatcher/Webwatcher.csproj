@@ -94,14 +94,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AES\Decryptor.cs" />
     <Compile Include="Browser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Browser.Designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Google\API\ApiKeys.cs" />
     <Compile Include="Links.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />

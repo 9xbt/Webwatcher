@@ -10,27 +10,12 @@ using System.Windows.Forms;
 
 namespace Webwatcher
 {
+    /// <summary>
+    /// <see cref="Browser"/> form
+    /// </summary>
     internal partial class Browser : Form
     {
-        /// <summary>
-        /// <see cref="Browser"/> version
-        /// </summary>
-        internal const string Version = "1.9";
-
-        /// <summary>
-        /// Settings file path
-        /// </summary>
-        private string settingsPath = Application.StartupPath + @"\options.txt";
-
-        /// <summary>
-        /// Current page title
-        /// </summary>
-        private string pageTitle;
-        
-        /// <summary>
-        /// Browser settings
-        /// </summary>
-        private (bool updateStatus, bool enableVisualStyles, bool enableUpdates, string homepage) browserSettings;
+        #region Constructors
 
         /// <summary>
         /// Initializes an instance of the <see cref="Browser"/>
@@ -45,6 +30,10 @@ namespace Webwatcher
             InitializeChromium();
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Initialize Chromium instance
         /// </summary>
@@ -55,10 +44,6 @@ namespace Webwatcher
                 PersistSessionCookies = true,
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Webwatcher/" + Version
             };
-
-            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Google.API.ApiKeys.GOOGLE_API_KEY);
-            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", Google.API.ApiKeys.GOOGLE_DEFAULT_CLIENT_ID);
-            Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", Google.API.ApiKeys.GOOGLE_DEFAULT_CLIENT_SECRET);
 
             if (!Cef.Initialize(settings))
             {
@@ -224,7 +209,6 @@ namespace Webwatcher
             Invoke(new Action(() =>
             {
                 Text = e.Title + " - Webwatcher " + Version;
-                pageTitle = e.Title;
             }));
         }
 
@@ -242,7 +226,7 @@ namespace Webwatcher
             }
             else if (!URL.EndsWith(".htm") || !URL.EndsWith(".html") || !URL.EndsWith(".php") || !URL.EndsWith(".asp"))
             {
-
+                // TODO: make it download the file
             }
         }
 
@@ -311,7 +295,7 @@ namespace Webwatcher
             }
         }
 
-        private void NewTab_Click(object sender, EventArgs e) => Process.Start(Application.StartupPath + @"\Webwatcher.exe", "-child");
+        private void NewTab_Click(object sender, EventArgs e) => Process.Start(Application.StartupPath + @"\Webwatcher.exe", "--child");
 
         private void Settings_Click(object sender, EventArgs e) => Chromium.LoadUrl(Links.SettingsPage + "?showpagestatus=" + browserSettings.updateStatus.ToString().ToLower() + "&enableanimations=" + browserSettings.enableVisualStyles.ToString().ToLower() + "&enableupdates=" + browserSettings.enableUpdates.ToString().ToLower() + "&homepage=" + browserSettings.homepage.ToLower());
 
@@ -338,5 +322,26 @@ namespace Webwatcher
         private void Link_Changelog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Chromium.LoadUrl(Links.ChangelogPage);
 
         private void DevToolsButton_Click(object sender, EventArgs e) => Chromium.ShowDevTools();
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// <see cref="Browser"/> version
+        /// </summary>
+        internal const string Version = "1.8.2";
+
+        /// <summary>
+        /// Settings file path
+        /// </summary>
+        private string settingsPath = Application.StartupPath + @"\options.txt";
+
+        /// <summary>
+        /// Browser settings
+        /// </summary>
+        private (bool updateStatus, bool enableVisualStyles, bool enableUpdates, string homepage) browserSettings;
+
+        #endregion
     }
 }
