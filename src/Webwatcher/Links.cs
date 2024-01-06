@@ -2,11 +2,14 @@
 
 namespace Webwatcher
 {
-    internal class Links
+    /// <summary>
+    /// <see cref="Links"/> class
+    /// </summary>
+    internal static class Links
     {
-        internal static string AboutPage     = $@"file:///{Application.StartupPath}\links\about.html";
-        internal static string SettingsPage  = $@"file:///{Application.StartupPath}\links\settings.html";
-        internal static string ChangelogPage = $@"file:///{Application.StartupPath}\links\changelog.html";
-        internal static string ErrorPage     = $@"file:///{Application.StartupPath}\links\error.html";
+        internal static readonly string AboutPage     = $@"file:///{Application.StartupPath.Replace("\\", "/")}/links/about.html";
+        internal static readonly string SettingsPage  = $@"file:///{Application.StartupPath.Replace("\\", "/")}/links/settings.html";
+        internal static readonly string ChangelogPage = $@"file:///{Application.StartupPath.Replace("\\", "/")}/links/changelog.html";
+        internal static readonly string ErrorPage     = $@"file:///{Application.StartupPath.Replace("\\", "/")}/links/error.html";
     }
 }
