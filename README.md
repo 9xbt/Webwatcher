@@ -1,2 +1,2 @@
 # Webwatcher
-A chromium-based web browser made in C#
+A C# Chromium-based web browser
