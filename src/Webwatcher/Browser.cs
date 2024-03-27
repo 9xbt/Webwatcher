@@ -1,6 +1,6 @@
-﻿using CefSharp;
+﻿using EasyTabs;
+using CefSharp;
 using CefSharp.WinForms;
-using EasyTabs;
 
 namespace TestApp
 {
@@ -10,7 +10,6 @@ namespace TestApp
         {
             InitializeComponent();
 
-            AeroPeekEnabled = true;
             TabRenderer = new ChromeTabRenderer(this);
             Icon = Resources.Webwatcher;
         }
@@ -18,7 +17,6 @@ namespace TestApp
         static Browser()
         {
             CefSettings cefSettings = new CefSettings();
-
             Cef.Initialize(cefSettings);
         }
 

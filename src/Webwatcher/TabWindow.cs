@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using CefSharp;
-using CefSharp.WinForms;
 using EasyTabs;
+using CefSharp;
+using System.IO;
+using System.Net;
+using System.Linq;
+using System.Drawing;
+using CefSharp.WinForms;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace TestApp
 {
@@ -22,18 +22,11 @@ namespace TestApp
                 _tab = tab;
             }
 
-            public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
-            {
-                return true;
-            }
+            public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser) => true;
 
-            public void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser)
-            {
-            }
+            public void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser) { }
 
-            public void OnBeforeClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
-            {
-            }
+            public void OnBeforeClose(IWebBrowser chromiumWebBrowser, IBrowser browser) { }
 
             public bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
             {
@@ -63,7 +56,6 @@ namespace TestApp
                             };
                         };
                     }
-
                     else
                     {
                         newTab.WebBrowser.LoadingStateChanged += (_, e) =>
@@ -86,20 +78,16 @@ namespace TestApp
 
             private void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
             {
+                // TODO: implement this
+
                 throw new NotImplementedException();
             }
         }
 
+        private bool _faviconLoaded = false;
         public readonly ChromiumWebBrowser WebBrowser;
-        private bool faviconLoaded = false;
 
-	    protected TitleBarTabs ParentTabs
-	    {
-		    get
-		    {
-			    return (ParentForm as TitleBarTabs);
-		    }
-	    }
+        protected TitleBarTabs ParentTabs => ParentForm as TitleBarTabs;
 
         public TabWindow()
         {
@@ -122,16 +110,16 @@ namespace TestApp
 
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
-            WebBrowser.LoadingStateChanged += webBrowser_DocumentCompleted;
+            WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Invoke(new Action(() => urlTextBox.Text = e.Address));
+            Invoke(new Action(() => UrlTextBox.Text = e.Address));
 
-            if (e.Address != "about.blank" && !faviconLoaded)
+            if (e.Address != "about.blank" && !_faviconLoaded)
             {
-                Uri uri = new Uri(e.Address);
+                var uri = new Uri(e.Address);
 
                 if (uri.Scheme == "http" || uri.Scheme == "https")
                 {
@@ -168,78 +156,65 @@ namespace TestApp
                             }
                         }
                     }
-
-                    catch
-                    {
-                        Invoke(new Action(() => Icon = Resources.Webwatcher));
-                    }
+                    catch { Invoke(new Action(() => Icon = Resources.Webwatcher)); }
                 }
 
                 Invoke(new Action(() => Parent.Refresh()));
-                faviconLoaded = true;
+                _faviconLoaded = true;
             }
         }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
-        {
-            Invoke(new Action(() => Text = e.Title));
-        }
+            => Invoke(new Action(() => Text = e.Title));
 
-        void webBrowser_DocumentCompleted(object sender, LoadingStateChangedEventArgs e)
+        private void WebBrowser_DocumentCompleted(object sender, LoadingStateChangedEventArgs e)
         {
-            if (urlTextBox.Text == "about:blank")
+            if (UrlTextBox.Text == "about:blank")
             {
                 Invoke(new Action(() => Icon = Resources.Webwatcher));
             }
         }
 
-        private void backButton_MouseEnter(object sender, EventArgs e)
+        private void BackButton_MouseEnter(object sender, EventArgs e)
+            => BackButton.BackgroundImage = Resources.ButtonHoverBackground;
+
+        private void BackButton_MouseLeave(object sender, EventArgs e)
+            => BackButton.BackgroundImage = null;
+
+        private void UrlTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            backButton.BackgroundImage = Resources.ButtonHoverBackground;
-        }
+            if (e.KeyCode != Keys.Enter) return;
 
-        private void backButton_MouseLeave(object sender, EventArgs e)
-        {
-            backButton.BackgroundImage = null;
-        }
+            var fullUrl = UrlTextBox.Text;
 
-        private void urlTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                string fullUrl = urlTextBox.Text;
+            if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
+                fullUrl = "http://" + fullUrl;
 
-                if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
-                    fullUrl = "http://" + fullUrl;
-
-                faviconLoaded = false;
-                WebBrowser.Load(fullUrl);
-            }
+            _faviconLoaded = false;
+            WebBrowser.Load(fullUrl);
         }
 
         private void forwardButton_MouseEnter(object sender, EventArgs e)
-        {
-            forwardButton.BackgroundImage = Resources.ButtonHoverBackground;
-        }
+            => ForwardButton.BackgroundImage = Resources.ButtonHoverBackground;
 
         private void forwardButton_MouseLeave(object sender, EventArgs e)
-        {
-            forwardButton.BackgroundImage = null;
-        }
+            => ForwardButton.BackgroundImage = null;
 
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            WebBrowser.Back();
-        }
+        private void BackButton_Click(object sender, EventArgs e)
+            => WebBrowser.Back();
 
-        private void forwardButton_Click(object sender, EventArgs e)
-        {
-            WebBrowser.Forward();
-        }
+        private void ForwardButton_Click(object sender, EventArgs e)
+            => WebBrowser.Forward();
 
-        private void TabWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private void SettingsButton_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void SettingsButton_MouseEnter(object sender, EventArgs e)
+            => SettingsButton.BackgroundImage = Resources.ButtonHoverBackground;
+
+        private void SettingsButton_MouseLeave(object sender, EventArgs e)
+            => SettingsButton.BackgroundImage = null;
     }
 }

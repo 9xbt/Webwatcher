@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
 using EasyTabs;
+using System.Windows.Forms;
 
 namespace TestApp
 {
@@ -17,14 +17,13 @@ namespace TestApp
 
 			Browser testApp = new Browser();
 	        
-			testApp.Tabs.Add(
-		        new TitleBarTab(testApp)
-			        {
-				        Content = new TabWindow
-					                  {
-						                  Text = "New Tab"
-					                  }
-			        });
+			testApp.Tabs.Add(new TitleBarTab(testApp)
+			{
+				Content = new TabWindow
+			    {
+				    Text = "New Tab"
+				}
+			});
 			testApp.SelectedTabIndex = 0;
 
 			TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
