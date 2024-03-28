@@ -1,3 +1,6 @@
+/* Webwatcher 1.9 Configuration Stylesheet */
+/* Copyright (c) 2022-2024 Mobren */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,8 +13,8 @@ body {
             #E9EDF2 0px,
             #E9EDF2 210px,
             #E1E6EB 216px,
-            #C5C9CE 217px,
-            white 218px);
+            #C6C9CE 217px,
+            white 217px);
 }
 
 h2 {
@@ -20,17 +23,43 @@ h2 {
     font-size: 26px;
 }
 
+ul {
+    list-style-type: none;
+    margin-top: 12px; /* 7 */
+    /* text-align: right; */
+    /* background-image: url("sel.png"); */
+}
+
+a:link, a:visited {
+    color: black;
+    width: 216px;
+    height: 32px;
+    line-height: 32px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+}
+  
+a:hover, a:active {
+    background-image: url("sel_hover.png");
+}
+
 .bold {
-    margin-left: 243px;
     font-weight: bold;
 }
 
-#homepage_type {
+.homepage_type {
     margin-left: 60px;
 }
 
-#homepage_url {
+.homepage_url {
     width: 300px;
     height: 24px;
     margin-left: 60px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#navbar_text {
+    margin-right: 21px;
 }
