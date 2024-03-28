@@ -13,3 +13,24 @@ body {
             #C5C9CE 217px,
             white 218px);
 }
+
+h2 {
+    color: #4F647E;
+    font-weight: normal;
+    font-size: 26px;
+}
+
+.bold {
+    margin-left: 243px;
+    font-weight: bold;
+}
+
+#homepage_type {
+    margin-left: 60px;
+}
+
+#homepage_url {
+    width: 300px;
+    height: 24px;
+    margin-left: 60px;
+}
