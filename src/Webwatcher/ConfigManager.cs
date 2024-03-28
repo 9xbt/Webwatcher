@@ -3,16 +3,15 @@ using System.IO;
 
 namespace Webwatcher
 {
-    public static class ConfigLoader
+    public static class ConfigManager
     {
-        static string ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Webwatcher";
-        static string ConfigFile = ConfigPath + @"\config.cfg";
-
+        internal static ConfigBase Config;
+        internal static string ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Webwatcher";
+        internal static string ConfigFile = ConfigPath + @"\config.cfg";
         internal static string ConfigURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_basic.html";
         internal static string AboutURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_about.html";
-        internal static ConfigBase Config;
 
-        static ConfigLoader()
+        static ConfigManager()
         {
             if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath);
 

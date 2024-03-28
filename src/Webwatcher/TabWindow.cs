@@ -96,7 +96,7 @@ namespace Webwatcher
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
 
-            WebBrowser = new ChromiumWebBrowser(url != null ? url : (ConfigLoader.Config.UseDefaultHomepage ? "http://google.com/" : ConfigLoader.Config.Homepage))
+            WebBrowser = new ChromiumWebBrowser(url != null ? url : (ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage))
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
@@ -119,8 +119,8 @@ namespace Webwatcher
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Invoke(new Action(() => UrlTextBox.Text = e.Address.Replace(ConfigLoader.ConfigURL,
-                "webwatcher://settings").Replace(ConfigLoader.AboutURL, "webwatcher://settings")));
+            Invoke(new Action(() => UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL,
+                "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings")));
 
             if (e.Address != "about.blank" && !_faviconLoaded)
             {
@@ -179,13 +179,13 @@ namespace Webwatcher
             {
                 Invoke(new Action(() => Icon = Resources.GenericGlobe));
             }
-            else if (WebBrowser.Address == ConfigLoader.ConfigURL)
+            else if (WebBrowser.Address == ConfigManager.ConfigURL)
             {
                 WebBrowser.ExecuteScriptAsync(
-                    "document.querySelector(\"#homepage_url\").value = \"" + ConfigLoader.Config.Homepage + "\";" +
-                    "document.querySelector(\"#homepage_url\").disabled = " + (ConfigLoader.Config.UseDefaultHomepage ? "true" : "false") + ";" +
-                    "document.querySelector(\"#homepage_type_def\").checked = " + (ConfigLoader.Config.UseDefaultHomepage ? "true" : "false") + ";" +
-                    "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigLoader.Config.UseDefaultHomepage ? "false" : "true") + ";"
+                    "document.querySelector(\"#homepage_url\").value = \"" + ConfigManager.Config.Homepage + "\";" +
+                    "document.querySelector(\"#homepage_url\").disabled = " + (ConfigManager.Config.UseDefaultHomepage ? "true" : "false") + ";" +
+                    "document.querySelector(\"#homepage_type_def\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "true" : "false") + ";" +
+                    "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";"
                 );
             }
 
@@ -209,7 +209,7 @@ namespace Webwatcher
 
             if (fullUrl == "webwatcher://settings")
             {
-                fullUrl = ConfigLoader.ConfigURL;
+                fullUrl = ConfigManager.ConfigURL;
             }
 
             if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
@@ -235,7 +235,7 @@ namespace Webwatcher
         {
             ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
             {
-                Content = new TabWindow(ConfigLoader.ConfigURL)
+                Content = new TabWindow(ConfigManager.ConfigURL)
             });
             ParentTabs.SelectedTabIndex++;
         }

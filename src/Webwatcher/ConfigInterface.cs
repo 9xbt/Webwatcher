@@ -13,7 +13,7 @@ namespace Webwatcher
         {
             var config = new ConfigBase(homepage, useDefaultHomepage);
 
-            ConfigLoader.Save(config);
+            ConfigManager.Save(config);
         }
 
         public void ShowDevTools()

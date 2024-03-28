@@ -151,7 +151,7 @@
   <ItemGroup>
     <Compile Include="ConfigBase.cs" />
     <Compile Include="ConfigInterface.cs" />
-    <Compile Include="ConfigLoader.cs" />
+    <Compile Include="ConfigManager.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
