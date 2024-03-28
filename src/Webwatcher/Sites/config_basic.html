@@ -1,0 +1,34 @@
+<!-- Webwatcher 1.9 basic config HTML -->
+<!-- Copyright (c) 2022-2024 Mobren-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <title>Preferences</title>
+    </head>
+    <body style="font-family: sans-serif;">
+        <div>
+            <h2 style="margin-left: 56px; margin-top: 12px">Preferences</h2>
+            <ul>
+                <li><a style="background-image: url(sel.png)" href="config_basic.html"><span id="navbar_text">Basics</span></a></li>
+                <li><a href="config_about.html"><span id="navbar_text">About Webwatcher</span></a></li>
+                <li><a href="javascript:configInterface.showDevTools();"><span id="navbar_text">Developer Tools</span></a></li>
+            </ul>
+        </div>
+        <div style="position: fixed; left: 242px; top: 12px">
+            <h2>Basics</h2>
+            <br>
+            <span style="margin-left: 1px" class="bold">Home page:</span>
+            <input class="homepage_type" id="homepage_type_def" name="homepage_type" type="radio" checked>
+            <span>Default</span>
+            <br>
+            <input class="homepage_type" id="homepage_type_man" name="homepage_type" type="radio" style="margin-left: 113px">
+            <span>Open this page</span>
+            <input class="homepage_url" id="homepage_url" type="text" spellcheck="false">
+        </div>
+
+        <script src="config_basic.js"></script>
+    </body>
+</html>

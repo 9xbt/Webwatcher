@@ -1,26 +1,35 @@
 ﻿using System;
+using EasyTabs;
 using System.Windows.Forms;
 
 namespace Webwatcher
 {
-    internal static class Program
+    public static class Program
     {
-        #region Methods
-
         /// <summary>
-        /// Application entry point
+        /// The main entry point for the application.
         /// </summary>
-        /// <param name="args">Program arguments</param>
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            bool isChild = false;
-            foreach (string arg in args) isChild = arg == "--child";
-
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Browser(isChild));
-        }
 
-        #endregion
+			Browser testApp = new Browser();
+	        
+			testApp.Tabs.Add(new TitleBarTab(testApp)
+			{
+				Content = new TabWindow
+			    {
+				    Text = "New Tab"
+				}
+			});
+			testApp.SelectedTabIndex = 0;
+
+			TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
+			applicationContext.Start(testApp);
+
+            Application.Run(applicationContext);
+        }
     }
 }
