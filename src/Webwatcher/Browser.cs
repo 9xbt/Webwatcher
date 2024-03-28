@@ -2,7 +2,7 @@
 using CefSharp;
 using CefSharp.WinForms;
 
-namespace TestApp
+namespace Webwatcher
 {
 	public partial class Browser : TitleBarTabs
     {

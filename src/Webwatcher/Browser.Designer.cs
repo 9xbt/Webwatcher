@@ -1,4 +1,4 @@
-﻿namespace TestApp
+﻿namespace Webwatcher
 {
     partial class Browser
     {

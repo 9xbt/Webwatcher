@@ -1,10 +1,11 @@
 ﻿using System;
 using EasyTabs;
+using System.IO;
 using System.Windows.Forms;
 
-namespace TestApp
+namespace Webwatcher
 {
-    static class Program
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.

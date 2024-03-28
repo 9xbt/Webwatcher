@@ -1,4 +1,4 @@
-﻿namespace TestApp
+﻿namespace Webwatcher
 {
     partial class TabWindow
     {
@@ -37,6 +37,7 @@
             this.urlBoxRight = new System.Windows.Forms.PictureBox();
             this.urlBoxLeft = new System.Windows.Forms.PictureBox();
             this.UrlTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ForwardButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackButton)).BeginInit();
@@ -48,7 +49,7 @@
             // 
             // toolbarBackground
             // 
-            this.toolbarBackground.BackgroundImage = global::TestApp.Resources.ToolbarBackground;
+            this.toolbarBackground.BackgroundImage = global::Webwatcher.Resources.ToolbarBackground;
             this.toolbarBackground.Controls.Add(this.ForwardButton);
             this.toolbarBackground.Controls.Add(this.BackButton);
             this.toolbarBackground.Dock = System.Windows.Forms.DockStyle.Top;
@@ -60,7 +61,7 @@
             // ForwardButton
             // 
             this.ForwardButton.BackColor = System.Drawing.Color.Transparent;
-            this.ForwardButton.Image = global::TestApp.Resources.ForwardActive;
+            this.ForwardButton.Image = global::Webwatcher.Resources.ForwardActive;
             this.ForwardButton.Location = new System.Drawing.Point(38, 5);
             this.ForwardButton.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
             this.ForwardButton.Name = "ForwardButton";
@@ -74,7 +75,7 @@
             // BackButton
             // 
             this.BackButton.BackColor = System.Drawing.Color.Transparent;
-            this.BackButton.Image = global::TestApp.Resources.BackActive;
+            this.BackButton.Image = global::Webwatcher.Resources.BackActive;
             this.BackButton.Location = new System.Drawing.Point(6, 5);
             this.BackButton.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
             this.BackButton.Name = "BackButton";
@@ -89,7 +90,7 @@
             // 
             this.SettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SettingsButton.BackColor = System.Drawing.Color.Transparent;
-            this.SettingsButton.Image = global::TestApp.Resources.ToolsActive;
+            this.SettingsButton.Image = global::Webwatcher.Resources.ToolsActive;
             this.SettingsButton.Location = new System.Drawing.Point(293, 5);
             this.SettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
             this.SettingsButton.Name = "SettingsButton";
@@ -117,7 +118,7 @@
             // urlBoxRight
             // 
             this.urlBoxRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.urlBoxRight.Image = global::TestApp.Resources.UrlBoxRight;
+            this.urlBoxRight.Image = global::Webwatcher.Resources.UrlBoxRight;
             this.urlBoxRight.Location = new System.Drawing.Point(203, 0);
             this.urlBoxRight.Name = "urlBoxRight";
             this.urlBoxRight.Size = new System.Drawing.Size(12, 28);
@@ -126,7 +127,7 @@
             // 
             // urlBoxLeft
             // 
-            this.urlBoxLeft.Image = global::TestApp.Resources.UrlBoxLeft;
+            this.urlBoxLeft.Image = global::Webwatcher.Resources.UrlBoxLeft;
             this.urlBoxLeft.Location = new System.Drawing.Point(0, 0);
             this.urlBoxLeft.Name = "urlBoxLeft";
             this.urlBoxLeft.Size = new System.Drawing.Size(12, 28);
@@ -149,12 +150,23 @@
             this.UrlTextBox.WordWrap = false;
             this.UrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UrlTextBox_KeyDown);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 44);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "devtools";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TabWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(326, 289);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.urlBoxBackground);
             this.Controls.Add(this.toolbarBackground);
@@ -183,5 +195,6 @@
         private System.Windows.Forms.PictureBox urlBoxLeft;
         private System.Windows.Forms.PictureBox urlBoxRight;
         private System.Windows.Forms.PictureBox SettingsButton;
+        private System.Windows.Forms.Button button1;
     }
 }

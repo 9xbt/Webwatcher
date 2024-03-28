@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestApp {
+namespace Webwatcher {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TestApp {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestApp.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Webwatcher.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -117,6 +117,16 @@ namespace TestApp {
             get {
                 object obj = ResourceManager.GetObject("ForwardActive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
+        internal static System.Drawing.Icon GenericGlobe {
+            get {
+                object obj = ResourceManager.GetObject("GenericGlobe", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

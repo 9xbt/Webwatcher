@@ -8,8 +8,10 @@ using System.Drawing;
 using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using CefSharp.JavascriptBinding;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
-namespace TestApp
+namespace Webwatcher
 {
     public partial class TabWindow : Form
     {
@@ -75,13 +77,6 @@ namespace TestApp
                 newBrowser = null;
                 return true;
             }
-
-            private void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
-            {
-                // TODO: implement this
-
-                throw new NotImplementedException();
-            }
         }
 
         private bool _faviconLoaded = false;
@@ -93,9 +88,9 @@ namespace TestApp
         {
             InitializeComponent();
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
 
-            WebBrowser = new ChromiumWebBrowser("about:blank")
+            WebBrowser = new ChromiumWebBrowser(ConfigLoader.Config.UseDefaultHomepage ? "http://google.com/" : ConfigLoader.Config.Homepage)
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
@@ -105,6 +100,9 @@ namespace TestApp
                 TabIndex = 6,
                 LifeSpanHandler = new NewTabLifespanHandler(this)
             };
+
+            WebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
+            WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(), false, BindingOptions.DefaultBinder);
 
             Controls.Add(WebBrowser);
 
@@ -156,7 +154,7 @@ namespace TestApp
                             }
                         }
                     }
-                    catch { Invoke(new Action(() => Icon = Resources.Webwatcher)); }
+                    catch { Invoke(new Action(() => Icon = Resources.GenericGlobe)); }
                 }
 
                 Invoke(new Action(() => Parent.Refresh()));
@@ -171,7 +169,16 @@ namespace TestApp
         {
             if (UrlTextBox.Text == "about:blank")
             {
-                Invoke(new Action(() => Icon = Resources.Webwatcher));
+                Invoke(new Action(() => Icon = Resources.GenericGlobe));
+            }
+            else if (UrlTextBox.Text == ConfigLoader.ConfigURL)
+            {
+                WebBrowser.ExecuteScriptAsync(
+                    "document.querySelector(\"#homepage_url\").value = \"" + ConfigLoader.Config.Homepage + "\";" +
+                    "document.querySelector(\"#homepage_url\").disabled = " + (ConfigLoader.Config.UseDefaultHomepage ? "true" : "false") + ";" +
+                    "document.querySelector(\"#homepage_type_def\").checked = " + (ConfigLoader.Config.UseDefaultHomepage ? "true" : "false") + ";" +
+                    "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigLoader.Config.UseDefaultHomepage ? "false" : "true") + ";"
+                );
             }
         }
 
@@ -207,12 +214,17 @@ namespace TestApp
             => WebBrowser.Forward();
 
         private void SettingsButton_Click(object sender, EventArgs e)
-            => WebBrowser.Load("file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_basic.html");
+            => WebBrowser.Load(ConfigLoader.ConfigURL);
 
         private void SettingsButton_MouseEnter(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = Resources.ButtonHoverBackground;
 
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            WebBrowser.ShowDevTools();
+        }
     }
 }
