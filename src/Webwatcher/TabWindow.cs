@@ -8,7 +8,6 @@ using System.Drawing;
 using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using CefSharp.JavascriptBinding;
 
 namespace Webwatcher
 {
@@ -91,13 +90,13 @@ namespace Webwatcher
 
         protected TitleBarTabs ParentTabs => ParentForm as TitleBarTabs;
 
-        public TabWindow()
+        public TabWindow(string url = null)
         {
             InitializeComponent();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
 
-            WebBrowser = new ChromiumWebBrowser(ConfigLoader.Config.UseDefaultHomepage ? "http://google.com/" : ConfigLoader.Config.Homepage)
+            WebBrowser = new ChromiumWebBrowser(url != null ? url : (ConfigLoader.Config.UseDefaultHomepage ? "http://google.com/" : ConfigLoader.Config.Homepage))
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
@@ -114,11 +113,14 @@ namespace Webwatcher
             WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
 
             Controls.Add(WebBrowser);
+
+            WebBrowser.WaitForInitialLoadAsync();
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Invoke(new Action(() => UrlTextBox.Text = e.Address));
+            Invoke(new Action(() => UrlTextBox.Text = e.Address.Replace(ConfigLoader.ConfigURL,
+                "webwatcher://settings").Replace(ConfigLoader.AboutURL, "webwatcher://settings")));
 
             if (e.Address != "about.blank" && !_faviconLoaded)
             {
@@ -161,6 +163,7 @@ namespace Webwatcher
                     }
                     catch { Invoke(new Action(() => Icon = Resources.GenericGlobe)); }
                 }
+                else Invoke(new Action(() => Icon = Resources.GenericGlobe));
 
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
@@ -176,7 +179,7 @@ namespace Webwatcher
             {
                 Invoke(new Action(() => Icon = Resources.GenericGlobe));
             }
-            else if (UrlTextBox.Text == ConfigLoader.ConfigURL)
+            else if (WebBrowser.Address == ConfigLoader.ConfigURL)
             {
                 WebBrowser.ExecuteScriptAsync(
                     "document.querySelector(\"#homepage_url\").value = \"" + ConfigLoader.Config.Homepage + "\";" +
@@ -204,6 +207,11 @@ namespace Webwatcher
 
             var fullUrl = UrlTextBox.Text;
 
+            if (fullUrl == "webwatcher://settings")
+            {
+                fullUrl = ConfigLoader.ConfigURL;
+            }
+
             if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
                 fullUrl = "http://" + fullUrl;
 
@@ -224,7 +232,13 @@ namespace Webwatcher
             => WebBrowser.Forward();
 
         private void SettingsButton_Click(object sender, EventArgs e)
-            => WebBrowser.Load(ConfigLoader.ConfigURL);
+        {
+            ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
+            {
+                Content = new TabWindow(ConfigLoader.ConfigURL)
+            });
+            ParentTabs.SelectedTabIndex++;
+        }
 
         private void SettingsButton_MouseEnter(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = Resources.ButtonHoverBackground;
