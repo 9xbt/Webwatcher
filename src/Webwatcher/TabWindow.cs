@@ -8,8 +8,6 @@ using System.Drawing;
 using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using CefSharp.JavascriptBinding;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace Webwatcher
 {
@@ -24,7 +22,15 @@ namespace Webwatcher
                 _tab = tab;
             }
 
-            public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser) => true;
+            public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
+            {
+                if (browser.IsPopup)
+                {
+                    return false;
+                }
+
+                return true;
+            }
 
             public void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser) { }
 
@@ -102,7 +108,7 @@ namespace Webwatcher
             };
 
             WebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
-            WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(), false, BindingOptions.DefaultBinder);
+            WebBrowser.JavascriptObjectRepository.Register("jsInterface", new JavascriptInterface(this), false, BindingOptions.DefaultBinder);
 
             Controls.Add(WebBrowser);
 
@@ -222,9 +228,7 @@ namespace Webwatcher
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            WebBrowser.ShowDevTools();
-        }
+        public void ShowDevTools()
+            => WebBrowser.ShowDevTools();
     }
 }

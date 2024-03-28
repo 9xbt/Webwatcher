@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigBase.cs" />
-    <Compile Include="ConfigInterface.cs" />
+    <Compile Include="JavascriptInterface.cs" />
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

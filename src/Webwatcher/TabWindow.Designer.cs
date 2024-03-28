@@ -37,7 +37,6 @@
             this.urlBoxRight = new System.Windows.Forms.PictureBox();
             this.urlBoxLeft = new System.Windows.Forms.PictureBox();
             this.UrlTextBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ForwardButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackButton)).BeginInit();
@@ -150,27 +149,17 @@
             this.UrlTextBox.WordWrap = false;
             this.UrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UrlTextBox_KeyDown);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "devtools";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // TabWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(326, 289);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.urlBoxBackground);
             this.Controls.Add(this.toolbarBackground);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "TabWindow";
             this.Text = "TabWindow";
             this.toolbarBackground.ResumeLayout(false);
@@ -195,6 +184,5 @@
         private System.Windows.Forms.PictureBox urlBoxLeft;
         private System.Windows.Forms.PictureBox urlBoxRight;
         private System.Windows.Forms.PictureBox SettingsButton;
-        private System.Windows.Forms.Button button1;
     }
 }
