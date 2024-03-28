@@ -37,6 +37,12 @@ a:link, a:visited {
     text-decoration: none;
     display: inline-block;
 }
+
+button {
+    height: 24px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
   
 a:hover, a:active {
     background-image: url("sel_hover.png");
