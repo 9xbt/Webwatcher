@@ -1,12 +1,12 @@
-﻿using System.Windows.Forms;
+﻿using CefSharp;
 
 namespace Webwatcher
 {
-    public class JavascriptInterface
+    public class ConfigInterface
     {
-        internal TabWindow Parent;
+        public TabWindow Parent;
 
-        public JavascriptInterface(TabWindow parent)
+        public ConfigInterface(TabWindow parent)
             => Parent = parent;
 
         public void SaveConfig(string homepage, bool useDefaultHomepage)
@@ -17,6 +17,6 @@ namespace Webwatcher
         }
 
         public void ShowDevTools()
-            => Parent.ShowDevTools();
+            => Parent.WebBrowser.ShowDevTools();
     }
 }

@@ -18,5 +18,5 @@ homepage_type_man.onclick = function () {
 }
 
 function updateConfig() {
-    jsInterface.saveConfig(homepage_url.value, homepage_type_def.checked);
+    configInterface.saveConfig(homepage_url.value, homepage_type_def.checked);
 }

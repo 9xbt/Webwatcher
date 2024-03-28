@@ -8,6 +8,7 @@ using System.Drawing;
 using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using CefSharp.JavascriptBinding;
 
 namespace Webwatcher
 {
@@ -106,15 +107,13 @@ namespace Webwatcher
                 TabIndex = 6,
                 LifeSpanHandler = new NewTabLifespanHandler(this)
             };
-
             WebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
-            WebBrowser.JavascriptObjectRepository.Register("jsInterface", new JavascriptInterface(this), false, BindingOptions.DefaultBinder);
-
-            Controls.Add(WebBrowser);
-
+            WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
             WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
+
+            Controls.Add(WebBrowser);
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
@@ -186,6 +185,11 @@ namespace Webwatcher
                     "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigLoader.Config.UseDefaultHomepage ? "false" : "true") + ";"
                 );
             }
+
+            if (!WebBrowser.JavascriptObjectRepository.IsBound("configInterface"))
+            {
+                WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
+            }
         }
 
         private void BackButton_MouseEnter(object sender, EventArgs e)
@@ -227,8 +231,5 @@ namespace Webwatcher
 
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
-
-        public void ShowDevTools()
-            => WebBrowser.ShowDevTools();
     }
 }
