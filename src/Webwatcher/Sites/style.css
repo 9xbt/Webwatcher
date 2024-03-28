@@ -1,4 +1,4 @@
-/* Webwatcher 1.9 Configuration Stylesheet */
+/* Webwatcher 1.9 config stylesheet */
 /* Copyright (c) 2022-2024 Mobren */
 
 * {
@@ -25,9 +25,7 @@ h2 {
 
 ul {
     list-style-type: none;
-    margin-top: 12px; /* 7 */
-    /* text-align: right; */
-    /* background-image: url("sel.png"); */
+    margin-top: 12px;
 }
 
 a:link, a:visited {
@@ -49,13 +47,13 @@ a:hover, a:active {
 }
 
 .homepage_type {
-    margin-left: 60px;
+    margin-left: 16px;
 }
 
 .homepage_url {
     width: 300px;
     height: 24px;
-    margin-left: 60px;
+    margin-left: 6px;
     padding-left: 5px;
     padding-right: 5px;
 }
