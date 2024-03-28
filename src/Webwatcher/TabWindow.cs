@@ -168,6 +168,11 @@ namespace Webwatcher
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
             }
+
+            if (e.Address == ConfigManager.AboutURL)
+            {
+                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\";");
+            }
         }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)

@@ -1,4 +1,4 @@
-/* Webwatcher 1.9 config script */
+/* Webwatcher 1.9 basic config script */
 /* Copyright (c) 2022-2024 Mobren */
 
 const homepage_type_def = document.querySelector("#homepage_type_def");
