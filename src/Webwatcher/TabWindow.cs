@@ -207,9 +207,7 @@ namespace TestApp
             => WebBrowser.Forward();
 
         private void SettingsButton_Click(object sender, EventArgs e)
-        {
-
-        }
+            => WebBrowser.Load("file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_basic.html");
 
         private void SettingsButton_MouseEnter(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = Resources.ButtonHoverBackground;

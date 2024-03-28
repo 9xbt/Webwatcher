@@ -54,7 +54,7 @@
             this.toolbarBackground.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolbarBackground.Location = new System.Drawing.Point(0, 0);
             this.toolbarBackground.Name = "toolbarBackground";
-            this.toolbarBackground.Size = new System.Drawing.Size(623, 38);
+            this.toolbarBackground.Size = new System.Drawing.Size(326, 38);
             this.toolbarBackground.TabIndex = 2;
             // 
             // ForwardButton
@@ -90,7 +90,7 @@
             this.SettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SettingsButton.BackColor = System.Drawing.Color.Transparent;
             this.SettingsButton.Image = global::TestApp.Resources.ToolsActive;
-            this.SettingsButton.Location = new System.Drawing.Point(590, 5);
+            this.SettingsButton.Location = new System.Drawing.Point(293, 5);
             this.SettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(28, 28);
@@ -111,14 +111,14 @@
             this.urlBoxBackground.ForeColor = System.Drawing.Color.Silver;
             this.urlBoxBackground.Location = new System.Drawing.Point(71, 5);
             this.urlBoxBackground.Name = "urlBoxBackground";
-            this.urlBoxBackground.Size = new System.Drawing.Size(512, 28);
+            this.urlBoxBackground.Size = new System.Drawing.Size(215, 28);
             this.urlBoxBackground.TabIndex = 2;
             // 
             // urlBoxRight
             // 
             this.urlBoxRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.urlBoxRight.Image = global::TestApp.Resources.UrlBoxRight;
-            this.urlBoxRight.Location = new System.Drawing.Point(500, 0);
+            this.urlBoxRight.Location = new System.Drawing.Point(203, 0);
             this.urlBoxRight.Name = "urlBoxRight";
             this.urlBoxRight.Size = new System.Drawing.Size(12, 28);
             this.urlBoxRight.TabIndex = 4;
@@ -143,7 +143,7 @@
             this.UrlTextBox.Location = new System.Drawing.Point(19, 5);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(9);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(474, 18);
+            this.UrlTextBox.Size = new System.Drawing.Size(177, 18);
             this.UrlTextBox.TabIndex = 1;
             this.UrlTextBox.Text = "about:blank";
             this.UrlTextBox.WordWrap = false;
@@ -154,7 +154,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(623, 480);
+            this.ClientSize = new System.Drawing.Size(326, 289);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.urlBoxBackground);
             this.Controls.Add(this.toolbarBackground);
