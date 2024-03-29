@@ -85,7 +85,9 @@ namespace Webwatcher
             }
         }
 
+        const string _urlTextBoxDefaultText = "Search Google or type a URL";
         private bool _faviconLoaded = false;
+
         public readonly ChromiumWebBrowser WebBrowser;
 
         protected TitleBarTabs ParentTabs => ParentForm as TitleBarTabs;
@@ -119,8 +121,11 @@ namespace Webwatcher
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Invoke(new Action(() => UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL,
-                "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings")));
+            Invoke(new Action(() =>
+            {
+                UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL, "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings");
+                UrlTextBox.ForeColor = Color.Black;
+            }));
 
             if (e.Address != "about.blank" && !_faviconLoaded)
             {
@@ -161,9 +166,9 @@ namespace Webwatcher
                             }
                         }
                     }
-                    catch { Invoke(new Action(() => Icon = Resources.Webwatcher)); }
+                    catch { Invoke(new Action(() => Icon = Resources.GenericGlobe)); }
                 }
-                //else Invoke(new Action(() => Icon = Resources.GenericGlobe));
+                else Invoke(new Action(() => Icon = Resources.GenericGlobe));
 
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
@@ -250,5 +255,21 @@ namespace Webwatcher
 
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
+
+        private void UrlTextBox_Enter(object sender, EventArgs e)
+        {
+            if (UrlTextBox.Text != _urlTextBoxDefaultText) return;
+
+            UrlTextBox.Text = string.Empty;
+            UrlTextBox.ForeColor = Color.Black;
+        }
+
+        private void UrlTextBox_Leave(object sender, EventArgs e)
+        {
+            if (UrlTextBox.Text != string.Empty) return;
+
+            UrlTextBox.Text = _urlTextBoxDefaultText;
+            unchecked { UrlTextBox.ForeColor = Color.FromArgb((int)0xFFB4B6B7); }
+        }
     }
 }

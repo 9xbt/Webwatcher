@@ -16,11 +16,10 @@ function update_check() {
         .then(a => a.text())
         .then(latest_ver => {
             if (latest_ver == webwatcher_ver) {
-                // TOOD: maybe make this say how long ago you actually checked, instead of it being hard coded
                 update_info.textContent = "You have the latest version (last checked just now)";
             }
             else {
-                update_info.textContent = "There's a new update available (last checked just now)";
+                update_info.textContent = "There's a new update available on GitHub (last checked just now)";
             }
         });
 }

@@ -137,17 +137,20 @@
             // 
             this.UrlTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.UrlTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(243)))), ((int)(((byte)(244)))));
+            this.UrlTextBox.BackColor = System.Drawing.Color.FromArgb((int)(byte)(241), (int)(byte)(243), (int)(byte)(244));
             this.UrlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.UrlTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UrlTextBox.ForeColor = System.Drawing.Color.FromArgb((int)(byte)(180), (int)(byte)(182), (int)(byte)(183));
             this.UrlTextBox.Location = new System.Drawing.Point(19, 5);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(9);
             this.UrlTextBox.Name = "UrlTextBox";
             this.UrlTextBox.Size = new System.Drawing.Size(177, 18);
             this.UrlTextBox.TabIndex = 1;
-            this.UrlTextBox.Text = "about:blank";
+            this.UrlTextBox.Text = "Search Google or type a URL";
             this.UrlTextBox.WordWrap = false;
+            this.UrlTextBox.Enter += new System.EventHandler(this.UrlTextBox_Enter);
             this.UrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UrlTextBox_KeyDown);
+            this.UrlTextBox.Leave += new System.EventHandler(this.UrlTextBox_Leave);
             // 
             // TabWindow
             // 
