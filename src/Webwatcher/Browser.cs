@@ -1,6 +1,6 @@
-﻿using EasyTabs;
-using CefSharp;
+﻿using CefSharp;
 using CefSharp.WinForms;
+using EasyTabs;
 
 namespace Webwatcher
 {

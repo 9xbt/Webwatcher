@@ -1,6 +1,6 @@
 ﻿using System;
-using EasyTabs;
 using System.Windows.Forms;
+using EasyTabs;
 
 namespace Webwatcher
 {

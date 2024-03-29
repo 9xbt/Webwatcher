@@ -1,13 +1,13 @@
 ﻿using System;
-using EasyTabs;
-using CefSharp;
 using System.IO;
 using System.Net;
 using System.Linq;
 using System.Drawing;
-using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using CefSharp;
+using CefSharp.WinForms;
+using EasyTabs;
 
 namespace Webwatcher
 {
@@ -94,7 +94,7 @@ namespace Webwatcher
         {
             InitializeComponent();
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             WebBrowser = new ChromiumWebBrowser(url != null ? url : (ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage))
             {
@@ -161,9 +161,9 @@ namespace Webwatcher
                             }
                         }
                     }
-                    catch { Invoke(new Action(() => Icon = Resources.GenericGlobe)); }
+                    catch { Invoke(new Action(() => Icon = Resources.Webwatcher)); }
                 }
-                else Invoke(new Action(() => Icon = Resources.GenericGlobe));
+                //else Invoke(new Action(() => Icon = Resources.GenericGlobe));
 
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
