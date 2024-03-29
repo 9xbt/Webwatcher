@@ -87,6 +87,8 @@ namespace Webwatcher
 
         const string _urlTextBoxDefaultText = "Search Google or type a URL";
         private bool _faviconLoaded = false;
+        private bool _firstLoad = true, _firstActualLoad = true;
+        private string _lastAddress = null, _actualHomepage;
 
         public readonly ChromiumWebBrowser WebBrowser;
 
@@ -95,6 +97,8 @@ namespace Webwatcher
         public TabWindow(string url = null)
         {
             InitializeComponent();
+
+            _lastAddress = ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage;
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -115,17 +119,31 @@ namespace Webwatcher
             WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
 
             Controls.Add(WebBrowser);
-
-            WebBrowser.WaitForInitialLoadAsync();
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Invoke(new Action(() =>
+            if (_firstActualLoad)
             {
-                UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL, "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings");
-                UrlTextBox.ForeColor = Color.Black;
-            }));
+                _actualHomepage = e.Address;
+                _firstActualLoad = false;
+            }
+
+            _lastAddress = e.Address;
+
+            if (!_firstLoad)
+            {
+                Invoke(new Action(() =>
+                {
+                    UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL, "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings");
+                    UrlTextBox.ForeColor = Color.Black;
+                }));
+            }
+
+            if (_firstLoad && _lastAddress != _actualHomepage)
+            {
+                _firstLoad = false;
+            }
 
             if (e.Address != "about.blank" && !_faviconLoaded)
             {
@@ -176,7 +194,7 @@ namespace Webwatcher
 
             if (e.Address == ConfigManager.AboutURL)
             {
-                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\";");
+                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
             }
         }
 
@@ -215,6 +233,8 @@ namespace Webwatcher
         {
             if (e.KeyCode != Keys.Enter) return;
 
+            _firstLoad = false;
+
             var fullUrl = UrlTextBox.Text;
 
             if (fullUrl == "webwatcher://settings")
@@ -248,6 +268,10 @@ namespace Webwatcher
                 Content = new TabWindow(ConfigManager.ConfigURL)
             });
             ParentTabs.SelectedTabIndex++;
+
+            var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
+            selectedTab.UrlTextBox.Text = "webwatcher://settings"; // TODO: finish this
+            selectedTab.UrlTextBox.ForeColor = Color.Black;
         }
 
         private void SettingsButton_MouseEnter(object sender, EventArgs e)

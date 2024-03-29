@@ -179,11 +179,11 @@
 
         #endregion
 
+        public System.Windows.Forms.TextBox UrlTextBox;
         private System.Windows.Forms.Panel toolbarBackground;
         private System.Windows.Forms.PictureBox BackButton;
         private System.Windows.Forms.PictureBox ForwardButton;
         private System.Windows.Forms.Panel urlBoxBackground;
-        private System.Windows.Forms.TextBox UrlTextBox;
         private System.Windows.Forms.PictureBox urlBoxLeft;
         private System.Windows.Forms.PictureBox urlBoxRight;
         private System.Windows.Forms.PictureBox SettingsButton;
