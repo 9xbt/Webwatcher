@@ -1,20 +1,13 @@
 /* Webwatcher 1.9 config stylesheet */
 /* Copyright (c) 2022-2024 Mobren */
-
 * {
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-image:
-        linear-gradient(
-            to right,
-            #E9EDF2 0px,
-            #E9EDF2 210px,
-            #E1E6EB 216px,
-            #C6C9CE 217px,
-            white 217px);
+    background-image: linear-gradient( to right, #E9EDF2 0px, #E9EDF2 210px, #E1E6EB 216px, #C6C9CE 217px, white 217px);
+    font-family: sans-serif;
 }
 
 h2 {

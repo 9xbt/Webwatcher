@@ -1,13 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Linq;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using CefSharp;
+﻿using CefSharp;
 using CefSharp.WinForms;
 using EasyTabs;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Webwatcher
 {
@@ -15,7 +16,7 @@ namespace Webwatcher
     {
         private class NewTabLifespanHandler : ILifeSpanHandler
         {
-            private TabWindow _tab;
+            private readonly TabWindow _tab;
 
             public NewTabLifespanHandler(TabWindow tab)
             {
@@ -102,7 +103,7 @@ namespace Webwatcher
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            WebBrowser = new ChromiumWebBrowser(url != null ? url : (ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage))
+            WebBrowser = new ChromiumWebBrowser(url ?? (ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage))
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
@@ -116,7 +117,7 @@ namespace Webwatcher
             WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
-            WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
+            WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted; 
 
             Controls.Add(WebBrowser);
         }
@@ -137,13 +138,12 @@ namespace Webwatcher
                 {
                     UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL, "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings");
                     UrlTextBox.ForeColor = Color.Black;
+                    WebBrowser.Focus();
                 }));
             }
 
             if (_firstLoad && _lastAddress != _actualHomepage)
-            {
                 _firstLoad = false;
-            }
 
             if (e.Address != "about.blank" && !_faviconLoaded)
             {
@@ -238,12 +238,10 @@ namespace Webwatcher
             var fullUrl = UrlTextBox.Text;
 
             if (fullUrl == "webwatcher://settings")
-            {
                 fullUrl = ConfigManager.ConfigURL;
-            }
 
-            if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
-                fullUrl = "http://" + fullUrl;
+            if (!Regex.IsMatch(fullUrl, @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$"))
+                fullUrl = fullUrl.Insert(0, "https://google.com/search?q=");
 
             _faviconLoaded = false;
             WebBrowser.Load(fullUrl);
@@ -270,7 +268,7 @@ namespace Webwatcher
             ParentTabs.SelectedTabIndex++;
 
             var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
-            selectedTab.UrlTextBox.Text = "webwatcher://settings"; // TODO: finish this
+            selectedTab.UrlTextBox.Text = "webwatcher://settings";
             selectedTab.UrlTextBox.ForeColor = Color.Black;
         }
 
@@ -280,9 +278,16 @@ namespace Webwatcher
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
 
-        private void UrlTextBox_Enter(object sender, EventArgs e)
+        private async void UrlTextBox_Enter(object sender, EventArgs e)
         {
-            if (UrlTextBox.Text != _urlTextBoxDefaultText) return;
+            if (UrlTextBox.Text != _urlTextBoxDefaultText)
+            {
+                await Task.Delay(1); // Wait for the base to finish
+
+                UrlTextBox.SelectAll();
+                UrlTextBox.Focus();
+                return;
+            }
 
             UrlTextBox.Text = string.Empty;
             UrlTextBox.ForeColor = Color.Black;
