@@ -4,6 +4,11 @@ body {
     font-family: sans-serif;
 }
 
+h1 {
+    color: #4F647E;
+    font-weight: normal;
+}
+
 .outer {
     display: table;
     position: absolute;
@@ -22,9 +27,4 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 800px;
-}
-
-h1 {
-    color: #4F647E;
-    font-weight: normal;
 }

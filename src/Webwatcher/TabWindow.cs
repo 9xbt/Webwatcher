@@ -89,7 +89,7 @@ namespace Webwatcher
         const string _urlTextBoxDefaultText = "Search Google or type a URL";
         private bool _faviconLoaded = false;
         private bool _firstLoad = true, _firstActualLoad = true;
-        private string _lastAddress = null, _actualHomepage;
+        private string _lastAddress = null, _actualHomepage = null, _failedServer = null;
 
         public readonly ChromiumWebBrowser WebBrowser;
 
@@ -117,7 +117,8 @@ namespace Webwatcher
             WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
-            WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted; 
+            WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
+            WebBrowser.LoadError += WebBrowser_LoadError;
 
             Controls.Add(WebBrowser);
         }
@@ -132,7 +133,7 @@ namespace Webwatcher
 
             _lastAddress = e.Address;
 
-            if (!_firstLoad)
+            if (!_firstLoad && e.Address != ConfigManager.ErrorURL)
             {
                 Invoke(new Action(() =>
                 {
@@ -191,11 +192,6 @@ namespace Webwatcher
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
             }
-
-            if (e.Address == ConfigManager.AboutURL)
-            {
-                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
-            }
         }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
@@ -216,11 +212,21 @@ namespace Webwatcher
                     "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";"
                 );
             }
+            else if (WebBrowser.Address == ConfigManager.AboutURL)
+            {
+                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
+            }
 
             if (!WebBrowser.JavascriptObjectRepository.IsBound("configInterface"))
             {
                 WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             }
+        }
+
+        private void WebBrowser_LoadError(object sender, LoadErrorEventArgs e)
+        {
+            _failedServer = e.FailedUrl;
+            WebBrowser.LoadUrl(ConfigManager.ErrorURL);
         }
 
         private void BackButton_MouseEnter(object sender, EventArgs e)
@@ -235,16 +241,15 @@ namespace Webwatcher
 
             _firstLoad = false;
 
-            var fullUrl = UrlTextBox.Text;
+            var url = UrlTextBox.Text;
 
-            if (fullUrl == "webwatcher://settings")
-                fullUrl = ConfigManager.ConfigURL;
-
-            if (!Regex.IsMatch(fullUrl, @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$"))
-                fullUrl = fullUrl.Insert(0, "https://google.com/search?q=");
+            if (url == "webwatcher://settings")
+                url = ConfigManager.ConfigURL;
+            else if (!Regex.IsMatch(url, @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$"))
+                url = url.Insert(0, "https://google.com/search?q=");
 
             _faviconLoaded = false;
-            WebBrowser.Load(fullUrl);
+            WebBrowser.Load(url);
         }
 
         private void forwardButton_MouseEnter(object sender, EventArgs e)

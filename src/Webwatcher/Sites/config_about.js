@@ -1,4 +1,4 @@
-﻿/* Webwatcher 1.9 about config script */
+﻿/* Webwatcher 1.9 about page script */
 /* Copyright (c) 2022-2024 Mobren */
 
 const checkforupdates_button = document.querySelector("#checkforupdates");
