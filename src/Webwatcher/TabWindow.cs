@@ -89,7 +89,7 @@ namespace Webwatcher
         const string _urlTextBoxDefaultText = "Search Google or type a URL";
         private bool _faviconLoaded = false;
         private bool _firstLoad = true, _firstActualLoad = true;
-        private string _lastAddress = null, _actualHomepage = null, _failedServer = null;
+        private string _lastAddress = null, _actualHomepage = null;
 
         public readonly ChromiumWebBrowser WebBrowser;
 
@@ -114,7 +114,7 @@ namespace Webwatcher
                 LifeSpanHandler = new NewTabLifespanHandler(this)
             };
             WebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
-            WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
+            WebBrowser.JavascriptObjectRepository.Register("webwatcher", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
             WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
@@ -216,18 +216,21 @@ namespace Webwatcher
             {
                 WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
             }
-
-            if (!WebBrowser.JavascriptObjectRepository.IsBound("configInterface"))
+            else if (WebBrowser.Address == ConfigManager.ErrorURL)
             {
-                WebBrowser.JavascriptObjectRepository.Register("configInterface", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
+                WebBrowser.ExecuteScriptAsync(
+                    "const server_span = document.querySelector(\"#server_span\");" +
+                    "server_span.textContent = \"We can’t connect to the server at " + UrlTextBox.Text + ".\";");
+            }
+
+            if (!WebBrowser.JavascriptObjectRepository.IsBound("webwatcher"))
+            {
+                WebBrowser.JavascriptObjectRepository.Register("webwatcher", new ConfigInterface(this), true, BindingOptions.DefaultBinder);
             }
         }
 
         private void WebBrowser_LoadError(object sender, LoadErrorEventArgs e)
-        {
-            _failedServer = e.FailedUrl;
-            WebBrowser.LoadUrl(ConfigManager.ErrorURL);
-        }
+            => WebBrowser.LoadUrl(ConfigManager.ErrorURL);
 
         private void BackButton_MouseEnter(object sender, EventArgs e)
             => BackButton.BackgroundImage = Resources.ButtonHoverBackground;

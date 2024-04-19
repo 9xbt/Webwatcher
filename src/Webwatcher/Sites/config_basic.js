@@ -18,5 +18,5 @@ homepage_type_man.onclick = function () {
 }
 
 function updateConfig() {
-    configInterface.saveConfig(homepage_url.value, homepage_type_def.checked);
+    webwatcher.saveConfig(homepage_url.value, homepage_type_def.checked);
 }

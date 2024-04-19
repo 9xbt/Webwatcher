@@ -9,6 +9,10 @@ h1 {
     font-weight: normal;
 }
 
+li {
+    margin-bottom: 5px;
+}
+
 .outer {
     display: table;
     position: absolute;
