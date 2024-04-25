@@ -27,7 +27,5 @@ function update_check() {
     }
 
 function show_changelog() {
-    var changelog = window.open('https://www.example.com', '_blank', 'width=600,height=400');
-
-    changelog.focus();
+    // TODO: make it open a panel that looks a window with the changelog contents in it
 }
