@@ -86,10 +86,10 @@ namespace Webwatcher
             }
         }
 
-        const string _urlTextBoxDefaultText = "Search Google or type a URL";
+        private string _urlTextBoxDefaultText = "Search Google or type a URL";
+        private string _lastAddress = null, _actualHomepage = null;
         private bool _faviconLoaded = false;
         private bool _firstLoad = true, _firstActualLoad = true;
-        private string _lastAddress = null, _actualHomepage = null;
 
         public readonly ChromiumWebBrowser WebBrowser;
 
@@ -125,13 +125,15 @@ namespace Webwatcher
             switch (ConfigManager.Config.SearchEngine)
             {
                 case "google":
-                    UrlTextBox.Text = "Search Google or type a URL";
+                    _urlTextBoxDefaultText = "Search Google or type a URL";
                     break;
 
                 case "duckduckgo":
-                    UrlTextBox.Text = "Search DuckDuckGo or type a URL";
+                    _urlTextBoxDefaultText = "Search DuckDuckGo or type a URL";
                     break;
             }
+
+            UrlTextBox.Text = _urlTextBoxDefaultText;
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
@@ -225,7 +227,10 @@ namespace Webwatcher
                     "document.querySelector(\"#homepage_url\").value = \"" + ConfigManager.Config.Homepage + "\";" +
                     "document.querySelector(\"#homepage_url\").disabled = " + (ConfigManager.Config.UseDefaultHomepage ? "true" : "false") + ";" +
                     "document.querySelector(\"#homepage_type_def\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "true" : "false") + ";" +
-                    "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";"
+                    "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";" +
+                    "document.querySelector(\"#search_engine_google\").checked = " + (ConfigManager.Config.SearchEngine == "google" ? "true" : "false") + ";" +
+                    "document.querySelector(\"#search_engine_duckduckgo\").checked = " + (ConfigManager.Config.SearchEngine == "duckduckgo" ? "true" : "false") + ";" +
+                    "search_engine = \"" + ConfigManager.Config.SearchEngine + "\";"
                 );
             }
             else if (cleanAddress == ConfigManager.AboutURL)
@@ -269,9 +274,20 @@ namespace Webwatcher
             else if (url == "webwatcher://changelog")
                 url = ConfigManager.ChangelogURL;
             else if (!Regex.IsMatch(url,
-                @"^(https?|ftps?):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$",
+                @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$",
                 RegexOptions.IgnoreCase))
-            url = url.Insert(0, "https://google.com/search?q=");
+            {
+                switch (ConfigManager.Config.SearchEngine)
+                {
+                    case "google":
+                        url = url.Insert(0, "https://google.com/search?q=");
+                        break;
+
+                    case "duckduckgo":
+                        url = url.Insert(0, "https://duckduckgo.com/?q=");
+                        break;
+                }
+            }
 
             _faviconLoaded = false;
             WebBrowser.Load(url);
@@ -312,7 +328,7 @@ namespace Webwatcher
         {
             if (UrlTextBox.Text != _urlTextBoxDefaultText)
             {
-                await Task.Delay(1); // Wait for the base to finish
+                await Task.Delay(1); // Wait for the base to finish doing stuff
 
                 UrlTextBox.SelectAll();
                 UrlTextBox.Focus();
