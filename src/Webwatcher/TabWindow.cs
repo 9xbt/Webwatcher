@@ -137,7 +137,10 @@ namespace Webwatcher
             {
                 Invoke(new Action(() =>
                 {
-                    UrlTextBox.Text = e.Address.Replace(ConfigManager.ConfigURL, "webwatcher://settings").Replace(ConfigManager.AboutURL, "webwatcher://settings");
+                    UrlTextBox.Text = e.Address.Replace(
+                        ConfigManager.ConfigURL, "webwatcher://settings").Replace(
+                        ConfigManager.AboutURL, "webwatcher://about").Replace(
+                        ConfigManager.ChangelogURL, "webwatcher://changelog");
                     UrlTextBox.ForeColor = Color.Black;
                     WebBrowser.Focus();
                 }));

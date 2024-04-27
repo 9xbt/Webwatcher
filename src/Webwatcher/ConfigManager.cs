@@ -10,6 +10,7 @@ namespace Webwatcher
         internal static string ConfigFile = ConfigPath + @"\config.cfg";
         internal static string ConfigURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_basic.html";
         internal static string AboutURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_about.html";
+        internal static string ChangelogURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/changelog.html";
         internal static string ErrorURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/load_error.html";
 
         static ConfigManager()

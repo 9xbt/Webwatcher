@@ -7,16 +7,16 @@
         <link rel="stylesheet" href="config.css">
         <title>Preferences</title>
     </head>
-    <body style="font-family: sans-serif;">
-        <div>
+    <body>
+        <div class="navbar">
             <h2 style="margin-left: 56px; margin-top: 12px">Preferences</h2>
             <ul>
-                <li><a href="config_basic.html"><span id="navbar_text">Basics</span></a></li>
-                <li><a style="background-image: url(sel.png)" href="config_about.html"><span id="navbar_text">About Webwatcher</span></a></li>
+                <li><a href="config_basic.html?disable_animations"><span id="navbar_text">Basics</span></a></li>
+                <li><a href="config_about.html?disable_animations" style="background-image: url(sel.png)"><span id="navbar_text">About Webwatcher</span></a></li>
                 <li><a href="javascript:webwatcher.showDevTools();"><span id="navbar_text">Developer Tools</span></a></li>
             </ul>
         </div>
-        <div style="position: fixed; left: 242px; top: 12px">
+        <div class="settings">
             <h2>About Webwatcher</h2>
             <br>
             <p>Webwatcher "The dream browser"</p>
@@ -27,8 +27,8 @@
             <br>
             <p id="update_info">Checking for updates...</p>
             <br>
-            <button id="checkforupdates" style="margin-right: 3px">Check for updates</button>
-            <button id="showchangelog">Show Changelog</button>
+            <button onclick="do_update_check()" style="margin-right: 3px">Check for updates</button>
+            <button onclick="show_changelog()" style="margin-right: 3px">Show changelog</button>
         </div>
 
         <script src="config_about.js"></script>

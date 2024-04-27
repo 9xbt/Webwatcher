@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: linear-gradient( to right, #E9EDF2 0px, #E9EDF2 210px, #E1E6EB 216px, #C6C9CE 217px, white 217px);
+    /*background-image: linear-gradient( to right, #E9EDF2 0px, #E9EDF2 210px, #E1E6EB 216px, #C6C9CE 217px, white 217px);*/
     font-family: sans-serif;
 }
 
@@ -58,6 +58,36 @@ a:hover, a:active {
     padding-right: 5px;
 }
 
+.navbar {
+    width: 217px;
+    height: 100%;
+    position: fixed;
+    background-image: linear-gradient(to right, #E9EDF2 0px, #E9EDF2 210px, #E1E6EB 216px, #C6C9CE 217px);
+}
+
+.navbar_with_animation {
+    animation-name: navbar_animation;
+    animation-duration: 0.5s;
+}
+
+.settings {
+    position: fixed;
+    left: 242px;
+    top: 12px;
+}
+
 #navbar_text {
     margin-right: 21px;
+}
+
+@keyframes navbar_animation {
+    0% {
+        left: -217px;
+        top: 0px;
+    }
+
+    100% {
+        left: 0px;
+        top: 0px;
+    }
 }

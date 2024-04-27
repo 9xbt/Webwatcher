@@ -245,6 +245,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GenericGlobe.ico" />
+    <Content Include="Sites\changelog.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sites\config_about.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
