@@ -103,7 +103,7 @@ namespace Webwatcher
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            WebBrowser = new ChromiumWebBrowser(url ?? (ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage))
+            WebBrowser = new ChromiumWebBrowser(url ?? (ConfigManager.Config.UseDefaultHomepage ? (ConfigManager.Config.SearchEngine == "google" ? "https://google.com/" : (ConfigManager.Config.SearchEngine == "duckduckgo" ? "https://start.duckduckgo.com/" : "about:blank")) : ConfigManager.Config.Homepage))
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
@@ -121,6 +121,17 @@ namespace Webwatcher
             WebBrowser.LoadError += WebBrowser_LoadError;
 
             Controls.Add(WebBrowser);
+
+            switch (ConfigManager.Config.SearchEngine)
+            {
+                case "google":
+                    UrlTextBox.Text = "Search Google or type a URL";
+                    break;
+
+                case "duckduckgo":
+                    UrlTextBox.Text = "Search DuckDuckGo or type a URL";
+                    break;
+            }
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)

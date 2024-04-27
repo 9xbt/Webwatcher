@@ -19,7 +19,7 @@ namespace Webwatcher
 
             if (!File.Exists(ConfigFile))
             {
-                Config = new ConfigBase("http://google.com/", true);
+                Config = new ConfigBase("http://google.com/", true, "google");
 
                 Save(Config);
             }
@@ -32,6 +32,7 @@ namespace Webwatcher
                     if (line == string.Empty || line.StartsWith("#")) continue;
                     else if (line.StartsWith("homepage=")) Config.Homepage = line.Split('=')[1];
                     else if (line.StartsWith("useDefaultHomepage=")) Config.UseDefaultHomepage = line.Split('=')[1] == "true";
+                    else if (line.StartsWith("searchEngine=")) Config.SearchEngine = line.Split('=')[1];
                     else throw new FormatException(line);
                 }
             }
@@ -49,7 +50,8 @@ namespace Webwatcher
                 "# Generated " + DateTime.Now,
                 "",
                 "homepage=" + Config.Homepage,
-                "useDefaultHomepage=" + (Config.UseDefaultHomepage ? "true" : "false")
+                "useDefaultHomepage=" + (Config.UseDefaultHomepage ? "true" : "false"),
+                "searchEngine=" + config.SearchEngine
             });
         }
     }

@@ -12,14 +12,16 @@ namespace Webwatcher
 
         public void SaveBasicConfig(string homepage, bool useDefaultHomepage)
         {
-            var config = new ConfigBase(homepage, useDefaultHomepage);
+            var config = new ConfigBase(homepage, useDefaultHomepage, ConfigManager.Config.SearchEngine);
 
             ConfigManager.Save(config);
         }
 
         public void SaveSearchEngineConfig(string searchEngine)
         {
-            MessageBox.Show(searchEngine);
+            var config = new ConfigBase(ConfigManager.Config.Homepage, ConfigManager.Config.UseDefaultHomepage, searchEngine);
+
+            ConfigManager.Save(config);
         }
 
         public void ShowDevTools()
