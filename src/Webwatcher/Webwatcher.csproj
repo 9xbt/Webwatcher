@@ -9,7 +9,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5BACEE82-6D1F-403B-BF39-C212B07A6CA8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Webwatcher</RootNamespace>
     <AssemblyName>Webwatcher</AssemblyName>
@@ -261,10 +261,10 @@
     <Content Include="Sites\config_about.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sites\config_search_engine.js">
+    <Content Include="Sites\config_advanced.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sites\config_search_engine.html">
+    <Content Include="Sites\config_advanced.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Sites\config_basic.html">

@@ -19,7 +19,7 @@ namespace Webwatcher
 
             if (!File.Exists(ConfigFile))
             {
-                Config = new ConfigBase("http://google.com/", true, "google");
+                Config = new ConfigBase("http://google.com/", true, "google", true);
 
                 Save(Config);
             }
@@ -33,6 +33,7 @@ namespace Webwatcher
                     else if (line.StartsWith("homepage=")) Config.Homepage = line.Split('=')[1];
                     else if (line.StartsWith("useDefaultHomepage=")) Config.UseDefaultHomepage = line.Split('=')[1] == "true";
                     else if (line.StartsWith("searchEngine=")) Config.SearchEngine = line.Split('=')[1];
+                    else if (line.StartsWith("useHardwareAccel=")) Config.UseHardwareAccel = line.Split('=')[1] == "true";
                     else throw new FormatException(line);
                 }
             }
@@ -51,7 +52,8 @@ namespace Webwatcher
                 "",
                 "homepage=" + Config.Homepage,
                 "useDefaultHomepage=" + (Config.UseDefaultHomepage ? "true" : "false"),
-                "searchEngine=" + config.SearchEngine
+                "searchEngine=" + config.SearchEngine,
+                "useHardwareAccel=" + (Config.UseHardwareAccel ? "true" : "false")
             });
         }
     }

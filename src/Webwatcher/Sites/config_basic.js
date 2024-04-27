@@ -6,19 +6,31 @@ const urlParams = new URLSearchParams(window.location.search);
 const homepage_type_def = document.querySelector("#homepage_type_def");
 const homepage_type_man = document.querySelector("#homepage_type_man");
 const homepage_url = document.querySelector("#homepage_url");
+const search_engine_google = document.querySelector("#search_engine_google");
+const search_engine_duckduckgo = document.querySelector("#search_engine_duckduckgo");
 
 run_animation();
 
-homepage_url.addEventListener('keyup', updateConfig);
+homepage_url.addEventListener('keyup', saveBasicConfig);
 
 homepage_type_def.onclick = function () {
     homepage_url.disabled = true;
-    updateConfig();
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, search_engine);
 }
 
 homepage_type_man.onclick = function () {
     homepage_url.disabled = false;
-    updateConfig();
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, search_engine);
+}
+
+search_engine_google.onclick = function () {
+    search_engine = "google";
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, "google");
+}
+
+search_engine_duckduckgo.onclick = function () {
+    search_engine = "google";
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, "duckduckgo");
 }
 
 function run_animation() {
@@ -27,6 +39,6 @@ function run_animation() {
     }
 }
 
-function updateConfig() {
-    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked);
+function saveBasicConfig() {
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked)
 }
