@@ -4,7 +4,7 @@
 const navbar = document.querySelector(".navbar");
 const urlParams = new URLSearchParams(window.location.search);
 const update_info = document.querySelector("#update_info");
-const latest_version = "https://raw.githubusercontent.com/9xbt/Webwatcher/main/api/latest_version?a=" + Math.random(); /* avoid caching */
+const latest_version = "https://raw.githubusercontent.com/9xbt/Webwatcher/main/api/latest_version";
 
 run_animation();
 do_update_check();

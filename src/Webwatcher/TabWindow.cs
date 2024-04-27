@@ -251,6 +251,10 @@ namespace Webwatcher
 
             if (url == "webwatcher://settings")
                 url = ConfigManager.ConfigURL;
+            else if (url == "webwatcher://about")
+                url = ConfigManager.AboutURL;
+            else if (url == "webwatcher://changelog")
+                url = ConfigManager.ChangelogURL;
             else if (!Regex.IsMatch(url, @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$"))
                 url = url.Insert(0, "https://google.com/search?q=");
 
