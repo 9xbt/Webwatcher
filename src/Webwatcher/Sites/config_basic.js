@@ -28,5 +28,5 @@ function run_animation() {
 }
 
 function updateConfig() {
-    webwatcher.saveConfig(homepage_url.value, homepage_type_def.checked);
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked);
 }

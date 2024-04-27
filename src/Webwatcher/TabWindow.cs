@@ -257,8 +257,10 @@ namespace Webwatcher
                 url = ConfigManager.AboutURL;
             else if (url == "webwatcher://changelog")
                 url = ConfigManager.ChangelogURL;
-            else if (!Regex.IsMatch(url, @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$"))
-                url = url.Insert(0, "https://google.com/search?q=");
+            else if (!Regex.IsMatch(url,
+                @"^(https?|ftps?):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$",
+                RegexOptions.IgnoreCase))
+            url = url.Insert(0, "https://google.com/search?q=");
 
             _faviconLoaded = false;
             WebBrowser.Load(url);

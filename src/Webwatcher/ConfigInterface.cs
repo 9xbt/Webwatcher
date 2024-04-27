@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using System.Windows.Forms;
+using CefSharp;
 
 namespace Webwatcher
 {
@@ -9,11 +10,16 @@ namespace Webwatcher
         public ConfigInterface(TabWindow parent)
             => Parent = parent;
 
-        public void SaveConfig(string homepage, bool useDefaultHomepage)
+        public void SaveBasicConfig(string homepage, bool useDefaultHomepage)
         {
             var config = new ConfigBase(homepage, useDefaultHomepage);
 
             ConfigManager.Save(config);
+        }
+
+        public void SaveSearchEngineConfig(string searchEngine)
+        {
+            MessageBox.Show(searchEngine);
         }
 
         public void ShowDevTools()
