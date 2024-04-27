@@ -16,8 +16,12 @@ h2 {
     font-size: 26px;
 }
 
-ul {
+ul.navbar_list {
     list-style-type: none;
+    margin-top: 12px;
+}
+
+ul.changelog_list {
     margin-top: 12px;
 }
 
@@ -74,6 +78,15 @@ a:hover, a:active {
     position: fixed;
     left: 242px;
     top: 12px;
+}
+
+.changelog {
+    position: fixed;
+    left: 242px;
+    top: 0px;
+    width: calc(100% - 242px);
+    height: 100%;
+    overflow-y: scroll;
 }
 
 #navbar_text {

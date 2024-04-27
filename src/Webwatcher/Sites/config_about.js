@@ -22,6 +22,7 @@ function do_update_check() {
         .then(a => a.text())
         .then(latest_ver => {
             if (latest_ver == webwatcher_ver) {
+                console.log("success");
                 update_info.textContent = "You have the latest version (last checked just now)";
             }
             else {

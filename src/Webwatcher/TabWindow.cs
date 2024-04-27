@@ -202,11 +202,13 @@ namespace Webwatcher
 
         private void WebBrowser_DocumentCompleted(object sender, LoadingStateChangedEventArgs e)
         {
+            var cleanAddress = WebBrowser.Address.Contains("?") ? WebBrowser.Address.Remove(WebBrowser.Address.IndexOf("?")) : WebBrowser.Address;
+
             if (UrlTextBox.Text == "about:blank")
             {
                 Invoke(new Action(() => Icon = Resources.GenericGlobe));
             }
-            else if (WebBrowser.Address == ConfigManager.ConfigURL)
+            else if (cleanAddress == ConfigManager.ConfigURL)
             {
                 WebBrowser.ExecuteScriptAsync(
                     "document.querySelector(\"#homepage_url\").value = \"" + ConfigManager.Config.Homepage + "\";" +
@@ -215,11 +217,11 @@ namespace Webwatcher
                     "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";"
                 );
             }
-            else if (WebBrowser.Address == ConfigManager.AboutURL)
+            else if (cleanAddress == ConfigManager.AboutURL)
             {
                 WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
             }
-            else if (WebBrowser.Address == ConfigManager.ErrorURL)
+            else if (cleanAddress == ConfigManager.ErrorURL)
             {
                 WebBrowser.ExecuteScriptAsync(
                     "const server_span = document.querySelector(\"#server_span\");" +
