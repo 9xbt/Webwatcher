@@ -152,6 +152,7 @@ namespace Webwatcher
                 {
                     UrlTextBox.Text = e.Address.Replace(
                         ConfigManager.ConfigURL, "webwatcher://settings").Replace(
+                        ConfigManager.AdvancedConfigURL, "webwatcher://settings/advanced").Replace(
                         ConfigManager.AboutURL, "webwatcher://about").Replace(
                         ConfigManager.ChangelogURL, "webwatcher://changelog");
                     UrlTextBox.ForeColor = Color.Black;
@@ -232,6 +233,10 @@ namespace Webwatcher
                     "document.querySelector(\"#search_engine_duckduckgo\").checked = " + (ConfigManager.Config.SearchEngine == "duckduckgo" ? "true" : "false") + ";" +
                     "search_engine = \"" + ConfigManager.Config.SearchEngine + "\";"
                 );
+            }
+            else if (cleanAddress == ConfigManager.AdvancedConfigURL)
+            {
+                WebBrowser.ExecuteScriptAsync("document.querySelector(\"#use_hardware_accel\").checked = " + (ConfigManager.Config.UseHardwareAccel ? "true" : "false"));
             }
             else if (cleanAddress == ConfigManager.AboutURL)
             {

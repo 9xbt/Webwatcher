@@ -22,6 +22,12 @@ namespace Webwatcher
                 PersistSessionCookies = true,
                 CachePath = ConfigManager.ConfigPath
             };
+
+            if (!ConfigManager.Config.UseHardwareAccel)
+            {
+                cefSettings.DisableGpuAcceleration();
+            }
+
             Cef.Initialize(cefSettings);
         }
 
