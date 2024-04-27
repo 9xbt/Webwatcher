@@ -9,7 +9,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5BACEE82-6D1F-403B-BF39-C212B07A6CA8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Webwatcher</RootNamespace>
     <AssemblyName>Webwatcher</AssemblyName>
@@ -248,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GenericGlobe.ico" />
+    <None Include="Resources\Menu.png" />
     <Content Include="Sites\changelog.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

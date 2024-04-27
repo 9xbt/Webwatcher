@@ -6,7 +6,6 @@
 }
 
 body {
-    /*background-image: linear-gradient( to right, #E9EDF2 0px, #E9EDF2 210px, #E1E6EB 216px, #C6C9CE 217px, white 217px);*/
     font-family: sans-serif;
 }
 
@@ -23,6 +22,10 @@ ul.navbar_list {
 
 ul.changelog_list {
     margin-top: 12px;
+}
+
+li.changelog_list {
+    margin-bottom: 5px;
 }
 
 a:link, a:visited {
