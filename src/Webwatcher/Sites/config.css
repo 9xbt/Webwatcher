@@ -28,6 +28,11 @@ li.changelog_list {
     margin-bottom: 5px;
 }
 
+li.changelog_sublist {
+    margin-bottom: 5px;
+    text-indent: 25px;
+}
+
 a:link, a:visited {
     color: black;
     width: 216px;
