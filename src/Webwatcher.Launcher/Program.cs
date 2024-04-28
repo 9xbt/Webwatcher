@@ -30,9 +30,21 @@ namespace Webwatcher.Launcher
             else if (browser.ExitCode != 0)
             {
                 TaskDialog dlg = new TaskDialog("webwatcher.exe has stopped working", "webwatcher.exe", "Windows is checking for a solution to the problem...", CommonButton.Cancel);
-                dlg.SetMarqueeProgressBar(true, 30);
+                Form form = new CrashForm();
 
-                dlg.Show(new CrashForm());
+                dlg.SetMarqueeProgressBar(true, 30);
+                dlg.Show(form);
+
+                dlg = new TaskDialog("webwatcher.exe has stopped working", "webwatcher.exe", "A problem caused the program to stop working correctly. Please close the program.")
+                {
+                    UseCommandLinks = true,
+                    CustomButtons = new CustomButton[]
+                    {
+                        new CustomButton(CommonButtonResult.Cancel, "Close the program")
+                    }
+                };
+
+                dlg.Show(form);
             }
         }
     }
