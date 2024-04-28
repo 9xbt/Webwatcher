@@ -354,10 +354,9 @@ namespace Webwatcher
         {
             if (UrlTextBox.Text != _urlTextBoxDefaultText)
             {
-                await Task.Delay(1); // Wait for the base to finish doing stuff
+                await Task.Delay(1);
 
                 UrlTextBox.SelectAll();
-                UrlTextBox.Focus();
                 return;
             }
 
