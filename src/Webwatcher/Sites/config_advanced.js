@@ -8,6 +8,7 @@ const use_hardware_accel = document.querySelector("#use_hardware_accel");
 run_animation();
 
 use_hardware_accel.onclick = function () {
+    alert("This setting will only apply once Webwatcher is restarted");
     webwatcher.saveAdvancedConfig(use_hardware_accel.checked);
 }
 

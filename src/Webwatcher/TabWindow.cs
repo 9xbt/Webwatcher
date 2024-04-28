@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using CefSharp.DevTools.Debugger;
 using CefSharp.WinForms;
 using EasyTabs;
 using System;
@@ -272,22 +273,42 @@ namespace Webwatcher
 
             var url = UrlTextBox.Text;
 
-            if (url == "webwatcher://settings")
-                url = ConfigManager.ConfigURL;
-            else if (url == "webwatcher://about")
-                url = ConfigManager.AboutURL;
-            else if (url == "webwatcher://changelog")
-                url = ConfigManager.ChangelogURL;
+            if (url.StartsWith("webwatcher://"))
+            {
+                switch (url)
+                {
+                    case "webwatcher://settings":
+                        url = ConfigManager.ConfigURL;
+                        break;
+
+                    case "webwatcher://settings/advanced":
+                        url = ConfigManager.AdvancedConfigURL;
+                        break;
+
+                    case "webwatcher://about":
+                        url = ConfigManager.AboutURL;
+                        break;
+
+                    case "webwatcher://changelog":
+                        url = ConfigManager.ChangelogURL;
+                        break;
+
+                    default:
+                        WebBrowser.LoadUrl(ConfigManager.ErrorURL);
+                        return;
+                }
+            }
             else if (!Regex.IsMatch(url,
                 @"^(http[s]?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,63}(/\S*)?$",
-                RegexOptions.IgnoreCase))
+                RegexOptions.IgnoreCase) &&
+                !Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
                 switch (ConfigManager.Config.SearchEngine)
                 {
                     case "google":
                         url = url.Insert(0, "https://google.com/search?q=");
                         break;
-
+                        
                     case "duckduckgo":
                         url = url.Insert(0, "https://duckduckgo.com/?q=");
                         break;
