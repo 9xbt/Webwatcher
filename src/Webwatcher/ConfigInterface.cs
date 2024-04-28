@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using System;
 
 namespace Webwatcher
 {
@@ -22,6 +23,9 @@ namespace Webwatcher
 
             ConfigManager.Save(config);
         }
+
+        public void Restart()
+            => Environment.Exit(0xFFFF);
 
         public void ShowDevTools()
             => Parent.WebBrowser.ShowDevTools();

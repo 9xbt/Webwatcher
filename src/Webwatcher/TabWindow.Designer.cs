@@ -144,7 +144,7 @@
             this.UrlTextBox.Location = new System.Drawing.Point(19, 5);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(9);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(177, 18);
+            this.UrlTextBox.Size = new System.Drawing.Size(177, 22);
             this.UrlTextBox.TabIndex = 1;
             this.UrlTextBox.Text = "Search Google or type a URL";
             this.UrlTextBox.WordWrap = false;

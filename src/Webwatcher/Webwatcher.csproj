@@ -12,7 +12,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Webwatcher</RootNamespace>
-    <AssemblyName>Webwatcher</AssemblyName>
+    <AssemblyName>webwatcher</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
