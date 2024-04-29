@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using System;
+using System.Diagnostics;
 
 namespace Webwatcher
 {
@@ -25,7 +26,10 @@ namespace Webwatcher
         }
 
         public void Restart()
-            => Environment.Exit(0xFFFF);
+        {
+            Process.Start(Process.GetCurrentProcess().ProcessName);
+            Environment.Exit(0);
+        }
 
         public void ShowDevTools()
             => Parent.WebBrowser.ShowDevTools();
