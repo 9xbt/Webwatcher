@@ -20,7 +20,7 @@ namespace Webwatcher
 
             if (!File.Exists(ConfigFile))
             {
-                Config = new ConfigBase("http://google.com/", true, "google", true);
+                Config = new ConfigBase("", true, "google", true);
 
                 Save(Config);
             }

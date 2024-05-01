@@ -195,22 +195,29 @@ namespace Webwatcher
 
                                 Invoke(new Action(() =>
                                 {
-                                    Icon = new Icon(ms);
+                                    try
+                                    {
+                                        Icon = new Icon(ms);
 
-                                    ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
-                                    ParentTabs.RedrawTabs();
+                                        ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
+                                        ParentTabs.RedrawTabs();
+                                    }
+                                    catch { SetDefaultIcon(); }
                                 }));
                             }
                         }
                     }
-                    catch { Invoke(new Action(() => Icon = Resources.GenericGlobe)); }
+                    catch { SetDefaultIcon(); }
                 }
-                else Invoke(new Action(() => Icon = Resources.GenericGlobe));
+                else SetDefaultIcon();
 
                 Invoke(new Action(() => Parent.Refresh()));
                 _faviconLoaded = true;
             }
         }
+
+        private void SetDefaultIcon()
+            => Invoke(new Action(() => Icon = Resources.GenericGlobe));
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
             => Invoke(new Action(() => Text = e.Title));
@@ -319,10 +326,10 @@ namespace Webwatcher
             WebBrowser.Load(url);
         }
 
-        private void forwardButton_MouseEnter(object sender, EventArgs e)
+        private void ForwardButton_MouseEnter(object sender, EventArgs e)
             => ForwardButton.BackgroundImage = Resources.ButtonHoverBackground;
 
-        private void forwardButton_MouseLeave(object sender, EventArgs e)
+        private void ForwardButton_MouseLeave(object sender, EventArgs e)
             => ForwardButton.BackgroundImage = null;
 
         private void BackButton_Click(object sender, EventArgs e)

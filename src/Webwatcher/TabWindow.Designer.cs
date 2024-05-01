@@ -68,8 +68,8 @@
             this.ForwardButton.TabIndex = 3;
             this.ForwardButton.TabStop = false;
             this.ForwardButton.Click += new System.EventHandler(this.ForwardButton_Click);
-            this.ForwardButton.MouseEnter += new System.EventHandler(this.forwardButton_MouseEnter);
-            this.ForwardButton.MouseLeave += new System.EventHandler(this.forwardButton_MouseLeave);
+            this.ForwardButton.MouseEnter += new System.EventHandler(this.ForwardButton_MouseEnter);
+            this.ForwardButton.MouseLeave += new System.EventHandler(this.ForwardButton_MouseLeave);
             // 
             // BackButton
             // 
@@ -144,7 +144,7 @@
             this.UrlTextBox.Location = new System.Drawing.Point(19, 5);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(9);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(177, 22);
+            this.UrlTextBox.Size = new System.Drawing.Size(177, 18);
             this.UrlTextBox.TabIndex = 1;
             this.UrlTextBox.Text = "Search Google or type a URL";
             this.UrlTextBox.WordWrap = false;
@@ -154,8 +154,7 @@
             // 
             // TabWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(326, 289);
             this.Controls.Add(this.SettingsButton);
