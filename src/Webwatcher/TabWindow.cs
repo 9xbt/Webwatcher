@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -151,7 +152,7 @@ namespace Webwatcher
             {
                 Invoke(new Action(() =>
                 {
-                    UrlTextBox.Text = e.Address.Replace(
+                    UrlTextBox.Text = e.Address.Replace("%20", " ").Replace(
                         ConfigManager.ConfigURL, "webwatcher://settings").Replace(
                         ConfigManager.AdvancedConfigURL, "webwatcher://settings/advanced").Replace(
                         ConfigManager.AboutURL, "webwatcher://about").Replace(
@@ -224,7 +225,9 @@ namespace Webwatcher
 
         private void WebBrowser_DocumentCompleted(object sender, LoadingStateChangedEventArgs e)
         {
-            var cleanAddress = WebBrowser.Address.Contains("?") ? WebBrowser.Address.Remove(WebBrowser.Address.IndexOf("?")) : WebBrowser.Address;
+            var cleanAddress = (WebBrowser.Address.Contains("?") ?
+                WebBrowser.Address.Remove(WebBrowser.Address.IndexOf("?")) :
+                WebBrowser.Address).Replace("%20", " ");
 
             if (UrlTextBox.Text == "about:blank")
             {
