@@ -101,11 +101,11 @@ namespace Webwatcher
         {
             InitializeComponent();
 
-            _lastAddress = ConfigManager.Config.UseDefaultHomepage ? "http://google.com/" : ConfigManager.Config.Homepage;
+            _lastAddress = url ?? (ConfigManager.Config.UseDefaultHomepage ? (ConfigManager.Config.SearchEngine == "google" ? "https://google.com/" : (ConfigManager.Config.SearchEngine == "duckduckgo" ? "https://start.duckduckgo.com/" : "about:blank")) : ConfigManager.Config.Homepage);
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            WebBrowser = new ChromiumWebBrowser(url ?? (ConfigManager.Config.UseDefaultHomepage ? (ConfigManager.Config.SearchEngine == "google" ? "https://google.com/" : (ConfigManager.Config.SearchEngine == "duckduckgo" ? "https://start.duckduckgo.com/" : "about:blank")) : ConfigManager.Config.Homepage))
+            WebBrowser = new ChromiumWebBrowser(_lastAddress)
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Location = new Point(0, 38),
