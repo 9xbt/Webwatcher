@@ -40,5 +40,5 @@ function run_animation() {
 }
 
 function saveBasicConfig() {
-    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked)
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, search_engine);
 }
