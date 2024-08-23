@@ -8,6 +8,7 @@ const homepage_type_man = document.querySelector("#homepage_type_man");
 const homepage_url = document.querySelector("#homepage_url");
 const search_engine_google = document.querySelector("#search_engine_google");
 const search_engine_duckduckgo = document.querySelector("#search_engine_duckduckgo");
+const search_engine_yahoo = document.querySelector("#search_engine_yahoo");
 
 run_animation();
 
@@ -29,8 +30,13 @@ search_engine_google.onclick = function () {
 }
 
 search_engine_duckduckgo.onclick = function () {
-    search_engine = "google";
+    search_engine = "duckduckgo";
     webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, "duckduckgo");
+}
+
+search_engine_yahoo.onclick = function () {
+    search_engine = "yahoo";
+    webwatcher.saveBasicConfig(homepage_url.value, homepage_type_def.checked, "yahoo");
 }
 
 function run_animation() {

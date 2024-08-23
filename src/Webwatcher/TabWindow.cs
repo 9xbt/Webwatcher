@@ -56,13 +56,10 @@ namespace Webwatcher
                         {
                             newTab.WebBrowser.LoadingStateChanged += (___, e) =>
                             {
-                                if (!newTabLoaded)
+                                if (!newTabLoaded && !e.IsLoading)
                                 {
-                                    if (!e.IsLoading)
-                                    {
-                                        newTabLoaded = true;
-                                        newTab.WebBrowser.Load(targetUrl);
-                                    }
+                                    newTabLoaded = true;
+                                    newTab.WebBrowser.Load(targetUrl);
                                 }
                             };
                         };
@@ -71,13 +68,10 @@ namespace Webwatcher
                     {
                         newTab.WebBrowser.LoadingStateChanged += (_, e) =>
                         {
-                            if (!newTabLoaded)
+                            if (!newTabLoaded && !e.IsLoading)
                             {
-                                if (!e.IsLoading)
-                                {
-                                    newTabLoaded = true;
-                                    newTab.WebBrowser.Load(targetUrl);
-                                }
+                                newTabLoaded = true;
+                                newTab.WebBrowser.Load(targetUrl);
                             }
                         };
                     }                    
@@ -101,7 +95,29 @@ namespace Webwatcher
         {
             InitializeComponent();
 
-            _lastAddress = url ?? (ConfigManager.Config.UseDefaultHomepage ? (ConfigManager.Config.SearchEngine == "google" ? "https://google.com/" : (ConfigManager.Config.SearchEngine == "duckduckgo" ? "https://start.duckduckgo.com/" : "about:blank")) : ConfigManager.Config.Homepage);
+            if (url == null)
+            {
+                if (ConfigManager.Config.UseDefaultHomepage)
+                {
+                    switch (ConfigManager.Config.SearchEngine)
+                    {
+                        case "google":
+                            _lastAddress = "https://google.com/";
+                            break;
+                        case "duckduckgo":
+                            _lastAddress = "https://start.duckduckgo.com/";
+                            break;
+                        case "yahoo":
+                            _lastAddress = "https://search.yahoo.com/";
+                            break;
+                        default:
+                            _lastAddress = "about:blank";
+                            break;
+                    }
+                }
+                else _lastAddress = ConfigManager.Config.Homepage;
+            }
+            else _lastAddress = url;
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -129,9 +145,11 @@ namespace Webwatcher
                 case "google":
                     _urlTextBoxDefaultText = "Search Google or type a URL";
                     break;
-
                 case "duckduckgo":
                     _urlTextBoxDefaultText = "Search DuckDuckGo or type a URL";
+                    break;
+                case "yahoo":
+                    _urlTextBoxDefaultText = "Search Yahoo! or type a URL";
                     break;
             }
 
@@ -242,6 +260,7 @@ namespace Webwatcher
                     "document.querySelector(\"#homepage_type_man\").checked = " + (ConfigManager.Config.UseDefaultHomepage ? "false" : "true") + ";" +
                     "document.querySelector(\"#search_engine_google\").checked = " + (ConfigManager.Config.SearchEngine == "google" ? "true" : "false") + ";" +
                     "document.querySelector(\"#search_engine_duckduckgo\").checked = " + (ConfigManager.Config.SearchEngine == "duckduckgo" ? "true" : "false") + ";" +
+                    "document.querySelector(\"#search_engine_yahoo\").checked = " + (ConfigManager.Config.SearchEngine == "yahoo" ? "true" : "false") + ";" +
                     "search_engine = \"" + ConfigManager.Config.SearchEngine + "\";"
                 );
             }
@@ -251,7 +270,7 @@ namespace Webwatcher
             }
             else if (cleanAddress == ConfigManager.AboutURL)
             {
-                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9.1\"");
+                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9.2\"");
             }
             else if (cleanAddress == ConfigManager.ErrorURL)
             {
@@ -290,19 +309,15 @@ namespace Webwatcher
                     case "webwatcher://settings":
                         url = ConfigManager.ConfigURL;
                         break;
-
                     case "webwatcher://settings/advanced":
                         url = ConfigManager.AdvancedConfigURL;
                         break;
-
                     case "webwatcher://about":
                         url = ConfigManager.AboutURL;
                         break;
-
                     case "webwatcher://changelog":
                         url = ConfigManager.ChangelogURL;
                         break;
-
                     default:
                         WebBrowser.LoadUrl(ConfigManager.ErrorURL);
                         return;
@@ -318,9 +333,11 @@ namespace Webwatcher
                     case "google":
                         url = url.Insert(0, "https://google.com/search?q=");
                         break;
-                        
                     case "duckduckgo":
                         url = url.Insert(0, "https://duckduckgo.com/?q=");
+                        break;
+                    case "yahoo":
+                        url = url.Insert(0, "https://search.yahoo.com/search?p=");
                         break;
                 }
             }
