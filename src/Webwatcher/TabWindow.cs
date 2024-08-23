@@ -251,7 +251,7 @@ namespace Webwatcher
             }
             else if (cleanAddress == ConfigManager.AboutURL)
             {
-                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9\"");
+                WebBrowser.ExecuteScriptAsync("const webwatcher_ver = \"1.9.1\"");
             }
             else if (cleanAddress == ConfigManager.ErrorURL)
             {
