@@ -7,7 +7,7 @@ const update_info = document.querySelector("#update_info");
 const latest_version = "https://raw.githubusercontent.com/9xbt/Webwatcher/main/api/latest_version";
 
 run_animation();
-setTimeout(() => do_update_check(), 5);
+setTimeout(() => do_update_check(), 10);
 
 function run_animation() {
     if (!urlParams.has('disable_animations')) {
