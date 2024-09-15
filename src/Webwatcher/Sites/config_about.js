@@ -16,6 +16,7 @@ function run_animation() {
 }
 
 function do_update_check() {
+    version_str.textContent = "Version " + webwatcher_ver;
     update_info.textContent = "Checking for updates...";
 
     fetch(latest_version)
@@ -25,7 +26,7 @@ function do_update_check() {
                 update_info.textContent = "You have the latest version (last checked just now)";
             }
             else {
-                update_info.textContent = "There's a new update available on GitHub (last checked just now)";
+                update_info.textContent = "There's a new update available on GitHub (version " + latest_ver + ")";
             }
         });
 }

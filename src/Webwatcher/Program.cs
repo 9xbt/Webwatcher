@@ -6,6 +6,8 @@ namespace Webwatcher
 {
     public static class Program
     {
+        public const string Version = "1.9.3";
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
