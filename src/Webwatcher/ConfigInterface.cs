@@ -25,12 +25,6 @@ namespace Webwatcher
             ConfigManager.Save(config);
         }
 
-        public void Restart()
-        {
-            Process.Start(Process.GetCurrentProcess().ProcessName);
-            Environment.Exit(0);
-        }
-
         public void ShowDevTools()
             => Parent.WebBrowser.ShowDevTools();
     }

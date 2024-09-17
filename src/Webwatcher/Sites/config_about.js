@@ -16,7 +16,11 @@ function run_animation() {
 }
 
 function do_update_check() {
-    version_str.textContent = "Version " + webwatcher_ver;
+    if (typeof webwatcher_ver == 'undefined') {
+        update_info.textContent = "Please use Webwatcher to check for updates!";
+        return;
+    }
+
     update_info.textContent = "Checking for updates...";
 
     fetch(latest_version)

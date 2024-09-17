@@ -9,11 +9,6 @@ run_animation();
 
 use_hardware_accel.onclick = function () {
     webwatcher.saveAdvancedConfig(use_hardware_accel.checked);
-
-    window.focus();
-    if (confirm("This setting will only apply once Webwatcher is restarted.\nDo you want to restart now?")) {
-        webwatcher.restart();
-    }
 }
 
 function run_animation() {
