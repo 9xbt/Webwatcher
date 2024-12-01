@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabWindow));
             this.toolbarBackground = new System.Windows.Forms.Panel();
             this.ForwardButton = new System.Windows.Forms.PictureBox();
@@ -37,6 +38,9 @@
             this.urlBoxRight = new System.Windows.Forms.PictureBox();
             this.urlBoxLeft = new System.Windows.Forms.PictureBox();
             this.UrlTextBox = new System.Windows.Forms.TextBox();
+            this.ContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.downloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ForwardButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackButton)).BeginInit();
@@ -44,6 +48,7 @@
             this.urlBoxBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).BeginInit();
+            this.ContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolbarBackground
@@ -89,7 +94,7 @@
             // 
             this.SettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SettingsButton.BackColor = System.Drawing.Color.Transparent;
-            this.SettingsButton.Image = global::Webwatcher.Resources.ToolsActive;
+            this.SettingsButton.Image = global::Webwatcher.Resources.Menu;
             this.SettingsButton.Location = new System.Drawing.Point(293, 5);
             this.SettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
             this.SettingsButton.Name = "SettingsButton";
@@ -152,6 +157,29 @@
             this.UrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UrlTextBox_KeyDown);
             this.UrlTextBox.Leave += new System.EventHandler(this.UrlTextBox_Leave);
             // 
+            // ContextMenu
+            // 
+            this.ContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem,
+            this.downloadsToolStripMenuItem});
+            this.ContextMenu.Name = "contextMenuStrip1";
+            this.ContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ContextMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // downloadsToolStripMenuItem
+            // 
+            this.downloadsToolStripMenuItem.Name = "downloadsToolStripMenuItem";
+            this.downloadsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.downloadsToolStripMenuItem.Text = "Downloads";
+            this.downloadsToolStripMenuItem.Click += new System.EventHandler(this.downloadsToolStripMenuItem_Click);
+            // 
             // TabWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -172,6 +200,7 @@
             this.urlBoxBackground.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).EndInit();
+            this.ContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -186,5 +215,8 @@
         private System.Windows.Forms.PictureBox urlBoxLeft;
         private System.Windows.Forms.PictureBox urlBoxRight;
         private System.Windows.Forms.PictureBox SettingsButton;
+        private System.Windows.Forms.ContextMenuStrip ContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem downloadsToolStripMenuItem;
     }
 }

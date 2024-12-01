@@ -1,5 +1,4 @@
 ﻿using CefSharp;
-using System;
 using System.Diagnostics;
 
 namespace Webwatcher
@@ -27,5 +26,8 @@ namespace Webwatcher
 
         public void ShowDevTools()
             => Parent.WebBrowser.ShowDevTools();
+
+        public void ShowDownloadsFolder()
+            => Process.Start("explorer", ConfigManager.DownloadPath);
     }
 }

@@ -1,5 +1,5 @@
 ﻿/* Webwatcher 1.9 about page script */
-/* Copyright (c) 2022-2024 Mobren */
+/* Copyright (c) 2024 Mobren */
 
 const navbar = document.querySelector(".navbar");
 const urlParams = new URLSearchParams(window.location.search);

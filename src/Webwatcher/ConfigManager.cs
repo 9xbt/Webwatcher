@@ -7,12 +7,14 @@ namespace Webwatcher
     {
         internal static ConfigBase Config;
         internal static string ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Webwatcher";
+        internal static string DownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
         internal static string ConfigFile = ConfigPath + @"\config.cfg";
         internal static string ConfigURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_basic.html";
         internal static string AdvancedConfigURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_advanced.html";
         internal static string AboutURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/config_about.html";
         internal static string ChangelogURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/changelog.html";
         internal static string ErrorURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/load_error.html";
+        internal static string DownloadsURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/downloads.html";
 
         static ConfigManager()
         {

@@ -1,13 +1,14 @@
 ﻿using CefSharp;
-using CefSharp.DevTools.Debugger;
+using CefSharp.DevTools.Network;
+using CefSharp.DevTools.WebAuthn;
 using CefSharp.WinForms;
 using EasyTabs;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -137,6 +138,7 @@ namespace Webwatcher
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
             WebBrowser.LoadingStateChanged += WebBrowser_DocumentCompleted;
             WebBrowser.LoadError += WebBrowser_LoadError;
+            WebBrowser.DownloadHandler = new DownloadHandler(this);
 
             Controls.Add(WebBrowser);
 
@@ -154,6 +156,32 @@ namespace Webwatcher
             }
 
             UrlTextBox.Text = _urlTextBoxDefaultText;
+        }
+
+        public void OpenSettings()
+        {
+            ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
+            {
+                Content = new TabWindow(ConfigManager.ConfigURL)
+            });
+            ParentTabs.SelectedTabIndex++;
+
+            var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
+            selectedTab.UrlTextBox.Text = "webwatcher://settings";
+            selectedTab.UrlTextBox.ForeColor = Color.Black;
+        }
+
+        public void OpenDownloads()
+        {
+            ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
+            {
+                Content = new TabWindow(ConfigManager.DownloadsURL)
+            });
+            ParentTabs.SelectedTabIndex++;
+
+            var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
+            selectedTab.UrlTextBox.Text = "webwatcher://downloads";
+            selectedTab.UrlTextBox.ForeColor = Color.Black;
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
@@ -174,7 +202,8 @@ namespace Webwatcher
                         ConfigManager.ConfigURL, "webwatcher://settings").Replace(
                         ConfigManager.AdvancedConfigURL, "webwatcher://settings/advanced").Replace(
                         ConfigManager.AboutURL, "webwatcher://about").Replace(
-                        ConfigManager.ChangelogURL, "webwatcher://changelog");
+                        ConfigManager.ChangelogURL, "webwatcher://changelog".Replace(
+                        ConfigManager.DownloadsURL, "webwatcher://downloads"));
                     UrlTextBox.ForeColor = Color.Black;
                     WebBrowser.Focus();
                 }));
@@ -247,7 +276,7 @@ namespace Webwatcher
                 WebBrowser.Address.Remove(WebBrowser.Address.IndexOf("?")) :
                 WebBrowser.Address).Replace("%20", " ");
 
-            if (UrlTextBox.Text == "about:blank")
+            if (cleanAddress == "about:blank")
             {
                 Invoke(new Action(() => Icon = Resources.GenericGlobe));
             }
@@ -276,7 +305,48 @@ namespace Webwatcher
             {
                 WebBrowser.ExecuteScriptAsync(
                     "const server_span = document.querySelector(\"#server_span\");" +
-                    "server_span.textContent = \"We can’t connect to the server at " + UrlTextBox.Text + ".\";");
+                    "server_span.textContent = \"We can’t connect to the server at " + UrlTextBox.Text + ".\";"
+                );
+            }
+            else if (cleanAddress.StartsWith(ConfigManager.DownloadsURL))
+            {
+                var files = Directory.GetFiles(ConfigManager.DownloadPath)
+                    .Select(file => new
+                    {
+                        Filename = Path.GetFileName(file),
+                        Time = File.GetCreationTime(file)
+                    })
+                    .OrderBy(file => file.Time)
+                    .ToList();
+                files.Reverse();
+
+                foreach (var file in files)
+                {
+                    string fmtDateLong = file.Time.ToString("MMMM d", CultureInfo.InvariantCulture) + GetDaySuffix(file.Time.Day) + ", " + file.Time.Year;
+                    string fmtDateShort = file.Time.ToString("dd-MM-yyyy");
+
+                    WebBrowser.ExecuteScriptAsync(
+                        "function addItems() {" +
+                        "    const div = document.querySelector('.changelog');" +
+                        "    const date = document.createElement('h2');" +
+                        "    const file = document.createElement('span');" +
+                        "    date.textContent = \"" + fmtDateLong + "\";" +
+                        "    file.textContent = \"" + file.Filename + "\";" +
+                        "    const headers = document.querySelectorAll('h2');" +
+                        "    const duplicate = Array.from(headers).some(h2 => h2.textContent.trim() === \"" + fmtDateLong + "\");" +
+                        "    if (!duplicate) {" +
+                        "        const headings = div.querySelectorAll('h2');" +
+                        "        if (headings.length > 0) {" +
+                        "            div.appendChild(document.createElement('br'));" +
+                        "        }" +
+                        "        div.appendChild(date);" +
+                        "    }" +
+                        "    div.appendChild(file);" +
+                        "    div.appendChild(document.createElement('br'));" +
+                        "}" +
+                        "addItems();"
+                    );
+                }
             }
 
             if (!WebBrowser.JavascriptObjectRepository.IsBound("webwatcher"))
@@ -317,6 +387,9 @@ namespace Webwatcher
                         break;
                     case "webwatcher://changelog":
                         url = ConfigManager.ChangelogURL;
+                        break;
+                    case "webwatcher://downloads":
+                        url = ConfigManager.DownloadsURL;
                         break;
                     default:
                         WebBrowser.LoadUrl(ConfigManager.ErrorURL);
@@ -359,23 +432,19 @@ namespace Webwatcher
             => WebBrowser.Forward();
 
         private void SettingsButton_Click(object sender, EventArgs e)
-        {
-            ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
-            {
-                Content = new TabWindow(ConfigManager.ConfigURL)
-            });
-            ParentTabs.SelectedTabIndex++;
-
-            var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
-            selectedTab.UrlTextBox.Text = "webwatcher://settings";
-            selectedTab.UrlTextBox.ForeColor = Color.Black;
-        }
+            => ContextMenu.Show(Cursor.Position.X, Cursor.Position.Y + 10);
 
         private void SettingsButton_MouseEnter(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = Resources.ButtonHoverBackground;
 
         private void SettingsButton_MouseLeave(object sender, EventArgs e)
             => SettingsButton.BackgroundImage = null;
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+            => OpenSettings();
+
+        private void downloadsToolStripMenuItem_Click(object sender, EventArgs e)
+            => OpenDownloads();
 
         private async void UrlTextBox_Enter(object sender, EventArgs e)
         {
@@ -397,6 +466,19 @@ namespace Webwatcher
 
             UrlTextBox.Text = _urlTextBoxDefaultText;
             unchecked { UrlTextBox.ForeColor = Color.FromArgb((int)0xFFB4B6B7); }
+        }
+
+        static string GetDaySuffix(int day)
+        {
+            if (day >= 11 && day <= 13)
+                return "th";
+            switch (day % 10)
+            {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
         }
     }
 }

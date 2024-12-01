@@ -1,4 +1,4 @@
-﻿/* Webwatcher 1.9 changelog page script */
+/* Webwatcher 1.9 downloads page script */
 /* Copyright (c) 2024 Mobren */
 
 const navbar = document.querySelector(".navbar");

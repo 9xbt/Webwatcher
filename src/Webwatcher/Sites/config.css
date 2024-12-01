@@ -1,5 +1,5 @@
 /* Webwatcher 1.9 config stylesheet */
-/* Copyright (c) 2022-2024 Mobren */
+/* Copyright (c) 2024 Mobren */
 * {
     margin: 0;
     padding: 0;
@@ -91,7 +91,7 @@ a:hover, a:active {
 .changelog {
     position: fixed;
     left: 242px;
-    top: 0px;
+    top: 12px;
     width: calc(100% - 242px);
     height: 100%;
     overflow-y: scroll;
