@@ -2,13 +2,13 @@
 
 namespace Webwatcher
 {
-    internal struct Download
+    public struct Download
     {
-        internal double Progress;
-        internal bool Done;
-        internal string URL;
-        internal string Path;
-        internal DateTime Date;
+        public double Progress;
+        public bool Done;
+        public string URL;
+        public string Path;
+        public DateTime Date;
 
         public Download(double progress, bool done, string url, string path, DateTime date)
         {

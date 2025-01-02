@@ -9,7 +9,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5BACEE82-6D1F-403B-BF39-C212B07A6CA8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Webwatcher</RootNamespace>
     <AssemblyName>webwatcher</AssemblyName>
@@ -155,7 +155,7 @@
     <Compile Include="ConfigBase.cs" />
     <Compile Include="ConfigInterface.cs" />
     <Compile Include="ConfigManager.cs" />
-    <Compile Include="Download.cs" />
+	<Compile Include="Download.cs" />
     <Compile Include="DownloadHandler.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

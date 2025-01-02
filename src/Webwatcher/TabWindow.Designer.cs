@@ -41,6 +41,9 @@
             this.ContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developerToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutWebwatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ForwardButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackButton)).BeginInit();
@@ -161,7 +164,10 @@
             // 
             this.ContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.downloadsToolStripMenuItem});
+            this.downloadsToolStripMenuItem,
+            this.developerToolsToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.aboutWebwatcherToolStripMenuItem});
             this.ContextMenu.Name = "contextMenuStrip1";
             this.ContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ContextMenu.Size = new System.Drawing.Size(181, 70);
@@ -179,6 +185,25 @@
             this.downloadsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.downloadsToolStripMenuItem.Text = "Downloads";
             this.downloadsToolStripMenuItem.Click += new System.EventHandler(this.downloadsToolStripMenuItem_Click);
+            // 
+            // developerToolsToolStripMenuItem
+            // 
+            this.developerToolsToolStripMenuItem.Name = "developerToolsToolStripMenuItem";
+            this.developerToolsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.developerToolsToolStripMenuItem.Text = "Developer Tools";
+            this.developerToolsToolStripMenuItem.Click += new System.EventHandler(this.developerToolsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
+            // 
+            // aboutWebwatcherToolStripMenuItem
+            // 
+            this.aboutWebwatcherToolStripMenuItem.Name = "aboutWebwatcherToolStripMenuItem";
+            this.aboutWebwatcherToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.aboutWebwatcherToolStripMenuItem.Text = "About Webwatcher";
+            this.aboutWebwatcherToolStripMenuItem.Click += new System.EventHandler(this.aboutWebwatcherToolStripMenuItem_Click);
             // 
             // TabWindow
             // 
@@ -218,5 +243,8 @@
         private System.Windows.Forms.ContextMenuStrip ContextMenu;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem developerToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem aboutWebwatcherToolStripMenuItem;
     }
 }

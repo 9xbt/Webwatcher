@@ -1,5 +1,5 @@
 /* Webwatcher 1.9 config stylesheet */
-/* Copyright (c) 2024 Mobren */
+/* Copyright (c) 2024-2025 Mobren */
 * {
     margin: 0;
     padding: 0;
@@ -33,7 +33,7 @@ li.changelog_sublist {
     text-indent: 25px;
 }
 
-a:link, a:visited {
+a.navbar_item:link, a.navbar_item:visited {
     color: black;
     width: 216px;
     height: 32px;
@@ -48,9 +48,18 @@ button {
     padding-left: 5px;
     padding-right: 5px;
 }
-  
-a:hover, a:active {
+
+a.navbar_item:hover, a.navbar_item:active {
     background-image: url("sel_hover.png");
+}
+
+a.download_item:link, a.download_item:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a.download_item:hover, a.download_item:active {
+    font-weight: bold;
 }
 
 .bold {

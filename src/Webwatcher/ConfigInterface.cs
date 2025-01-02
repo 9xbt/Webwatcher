@@ -29,5 +29,8 @@ namespace Webwatcher
 
         public void ShowDownloadsFolder()
             => Process.Start("explorer", ConfigManager.DownloadPath);
+
+        public void ShowDownloadedFile(string file)
+            => Process.Start("explorer", $"/select,\"{ConfigManager.DownloadPath + @"\" + file}\"");
     }
 }

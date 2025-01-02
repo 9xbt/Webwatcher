@@ -1,6 +1,4 @@
 ﻿using CefSharp;
-using CefSharp.DevTools.Network;
-using CefSharp.DevTools.WebAuthn;
 using CefSharp.WinForms;
 using EasyTabs;
 using System;
@@ -158,30 +156,28 @@ namespace Webwatcher
             UrlTextBox.Text = _urlTextBoxDefaultText;
         }
 
-        public void OpenSettings()
+        public void OpenPage(string url, string realPath)
         {
             ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
             {
-                Content = new TabWindow(ConfigManager.ConfigURL)
+                Content = new TabWindow(realPath)
             });
             ParentTabs.SelectedTabIndex++;
 
             var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
-            selectedTab.UrlTextBox.Text = "webwatcher://settings";
+            selectedTab.UrlTextBox.Text = url;
             selectedTab.UrlTextBox.ForeColor = Color.Black;
         }
 
-        public void OpenDownloads()
+        public void UpdateDownloads(Download download)
         {
-            ParentTabs.Tabs.Add(new TitleBarTab(ParentTabs)
-            {
-                Content = new TabWindow(ConfigManager.DownloadsURL)
-            });
-            ParentTabs.SelectedTabIndex++;
+            var filename = Path.GetFileName(download.Path);
 
-            var selectedTab = (TabWindow)ParentTabs.Tabs[ParentTabs.SelectedTabIndex].Content;
-            selectedTab.UrlTextBox.Text = "webwatcher://downloads";
-            selectedTab.UrlTextBox.ForeColor = Color.Black;
+            WebBrowser.ExecuteScriptAsync(
+                "const spans = document.querySelectorAll(\"span\");" +
+                "const current = Array.from(spans).find(span => span.textContent.trim().startsWith(\"" + filename + "\"));" +
+                "current.textContent = \"" + filename + " — " + download.Progress + "% done\";"
+            );
         }
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
@@ -313,7 +309,8 @@ namespace Webwatcher
                 var files = Directory.GetFiles(ConfigManager.DownloadPath)
                     .Select(file => new
                     {
-                        Filename = Path.GetFileName(file),
+                        Name = Path.GetFileName(file),
+                        Path = file,
                         Time = File.GetCreationTime(file)
                     })
                     .OrderBy(file => file.Time)
@@ -322,16 +319,19 @@ namespace Webwatcher
 
                 foreach (var file in files)
                 {
-                    string fmtDateLong = file.Time.ToString("MMMM d", CultureInfo.InvariantCulture) + GetDaySuffix(file.Time.Day) + ", " + file.Time.Year;
-                    string fmtDateShort = file.Time.ToString("dd-MM-yyyy");
+                    var download = DownloadHandler.GetDownloadByPath(file.Path);
+                    var fmtDateLong = file.Time.ToString("MMMM d", CultureInfo.InvariantCulture) + GetDaySuffix(file.Time.Day) + ", " + file.Time.Year;
+                    var fmtDateShort = file.Time.ToString("dd-MM-yyyy");
 
                     WebBrowser.ExecuteScriptAsync(
-                        "function addItems() {" +
+                        "function addItem() {" +
                         "    const div = document.querySelector('.changelog');" +
                         "    const date = document.createElement('h2');" +
-                        "    const file = document.createElement('span');" +
+                        "    const file = document.createElement('a');" +
                         "    date.textContent = \"" + fmtDateLong + "\";" +
-                        "    file.textContent = \"" + file.Filename + "\";" +
+                        "    file.textContent = \"" + file.Name + (download.Progress >= 0 ? " — " + download.Progress + "% done" : "") + "\";" +
+                        "    file.href = \"javascript:webwatcher.showDownloadedFile('" + file.Name + "')\";" +
+                        "    file.classList.add(\"download_item\");" +
                         "    const headers = document.querySelectorAll('h2');" +
                         "    const duplicate = Array.from(headers).some(h2 => h2.textContent.trim() === \"" + fmtDateLong + "\");" +
                         "    if (!duplicate) {" +
@@ -344,9 +344,16 @@ namespace Webwatcher
                         "    div.appendChild(file);" +
                         "    div.appendChild(document.createElement('br'));" +
                         "}" +
-                        "addItems();"
+                        "addItem();"
                     );
                 }
+                WebBrowser.ExecuteScriptAsync(
+                    "function addPadding() {" +
+                    "    const mainDiv = document.querySelector('.changelog');" +
+                    "    mainDiv.appendChild(document.createElement('br'));" +
+                    "}" +
+                    "addPadding();"
+                );
             }
 
             if (!WebBrowser.JavascriptObjectRepository.IsBound("webwatcher"))
@@ -441,10 +448,16 @@ namespace Webwatcher
             => SettingsButton.BackgroundImage = null;
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-            => OpenSettings();
+            => OpenPage("webwatcher://settings", ConfigManager.ConfigURL);
 
         private void downloadsToolStripMenuItem_Click(object sender, EventArgs e)
-            => OpenDownloads();
+            => OpenPage("webwatcher://downloads", ConfigManager.DownloadsURL);
+
+        private void aboutWebwatcherToolStripMenuItem_Click(object sender, EventArgs e)
+            => OpenPage("webwatcher://about", ConfigManager.AboutURL);
+
+        private void developerToolsToolStripMenuItem_Click(object sender, EventArgs e)
+            => WebBrowser.ShowDevTools();
 
         private async void UrlTextBox_Enter(object sender, EventArgs e)
         {
@@ -471,7 +484,9 @@ namespace Webwatcher
         static string GetDaySuffix(int day)
         {
             if (day >= 11 && day <= 13)
+            {
                 return "th";
+            }
             switch (day % 10)
             {
                 case 1: return "st";

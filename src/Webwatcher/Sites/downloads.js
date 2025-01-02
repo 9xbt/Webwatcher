@@ -11,3 +11,9 @@ function run_animation() {
         navbar.classList.add("navbar_with_animation");
     }
 }
+
+function update() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('disable_animations', '');
+    window.location.href = url.toString();
+}
