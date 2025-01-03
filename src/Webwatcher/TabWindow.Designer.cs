@@ -152,7 +152,7 @@
             this.UrlTextBox.Location = new System.Drawing.Point(19, 5);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(9);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(177, 18);
+            this.UrlTextBox.Size = new System.Drawing.Size(177, 22);
             this.UrlTextBox.TabIndex = 1;
             this.UrlTextBox.Text = "Search Google or type a URL";
             this.UrlTextBox.WordWrap = false;
@@ -162,6 +162,7 @@
             // 
             // ContextMenu
             // 
+            this.ContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.downloadsToolStripMenuItem,
@@ -170,26 +171,26 @@
             this.aboutWebwatcherToolStripMenuItem});
             this.ContextMenu.Name = "contextMenuStrip1";
             this.ContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ContextMenu.Size = new System.Drawing.Size(181, 70);
+            this.ContextMenu.Size = new System.Drawing.Size(211, 134);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.settingsToolStripMenuItem.Text = "Preferences";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // downloadsToolStripMenuItem
             // 
             this.downloadsToolStripMenuItem.Name = "downloadsToolStripMenuItem";
-            this.downloadsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.downloadsToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.downloadsToolStripMenuItem.Text = "Downloads";
             this.downloadsToolStripMenuItem.Click += new System.EventHandler(this.downloadsToolStripMenuItem_Click);
             // 
             // developerToolsToolStripMenuItem
             // 
             this.developerToolsToolStripMenuItem.Name = "developerToolsToolStripMenuItem";
-            this.developerToolsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.developerToolsToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.developerToolsToolStripMenuItem.Text = "Developer Tools";
             this.developerToolsToolStripMenuItem.Click += new System.EventHandler(this.developerToolsToolStripMenuItem_Click);
             // 
