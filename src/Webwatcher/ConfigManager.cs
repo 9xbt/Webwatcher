@@ -15,6 +15,8 @@ namespace Webwatcher
         internal static string ChangelogURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/changelog.html";
         internal static string ErrorURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/load_error.html";
         internal static string DownloadsURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/downloads.html";
+        internal static string DownloadUpdaterPath = Directory.GetCurrentDirectory() + @"\Sites\updateDownload.js";
+        internal static string DownloadUpdater = string.Empty;
 
         static ConfigManager()
         {
@@ -40,6 +42,8 @@ namespace Webwatcher
                     else throw new FormatException(line);
                 }
             }
+
+            DownloadUpdater = File.ReadAllText(DownloadUpdaterPath);
         }
 
         public static void Load(ConfigBase config)
