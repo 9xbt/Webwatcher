@@ -329,32 +329,36 @@ namespace Webwatcher
                     var fmtDateLong = file.Time.ToString("MMMM d", CultureInfo.InvariantCulture) + GetDaySuffix(file.Time.Day) + ", " + file.Time.Year;
                     var fmtDateShort = file.Time.ToString("dd-MM-yyyy");
 
+                    string dateText = fmtDateLong;
+                    string fileText = file.Name + (download.Progress >= 0 ? " — " + download.Progress + "% done" : "");
+                    string fileName = file.Name;
+                    string fileUrl = "javascript:webwatcher.showDownloadedFile('" + file.Name + "')";
+                    string removeDownloadScript = download.Progress >= 0 ?
+                        "file.addEventListener('contextmenu', function(event) {" +
+                        "    event.preventDefault();" +
+                        "    webwatcher.removeDownload('" + file.Name + "');" +
+                        "    setTimeout(function() {" +
+                        "        location.reload();" +
+                        "    }, 500);" +
+                        "});"
+                        : "";
+
                     WebBrowser.ExecuteScriptAsync(
-                        "function addItem() {" +
+                        "function addItem(dateText, fileText, fileName, fileUrl, removeDownloadScript) {" +
                         "    const div = document.querySelector('.changelog');" +
-                        "    const dateText = \"" + fmtDateLong + "\";" +
-                        "    const fileText = \"" + file.Name + (download.Progress >= 0 ? " — " + download.Progress + "% done" : "") + "\";" +
-                        "    let existingFile = Array.from(div.querySelectorAll('a.download_item')).find(a => a.textContent.startsWith(\"" + file.Name + "\"));" +
+                        "    let existingFile = Array.from(div.querySelectorAll('a.download_item')).find(a => a.textContent.startsWith(fileName));" +
                         "    if (existingFile) {" +
                         "        existingFile.textContent = fileText;" +
-                        "        existingFile.href = \"javascript:webwatcher.showDownloadedFile('" + file.Name + "')\";" +
+                        "        existingFile.href = fileUrl;" +
                         "        return;" +
                         "    }" +
                         "    const date = document.createElement('h2');" +
                         "    const file = document.createElement('a');" +
                         "    date.textContent = dateText;" +
                         "    file.textContent = fileText;" +
-                        "    file.href = \"javascript:webwatcher.showDownloadedFile('" + file.Name + "')\";" +
-                        (download.Progress >= 0 ?
-                        "    file.addEventListener('contextmenu', function(event) {" +
-                        "        event.preventDefault();" +
-                        "        webwatcher.removeDownload(\"" + file.Name + "\");" +
-                        "        setTimeout(function() {" +
-                        "            location.reload();" +
-                        "        }, 500);" +
-                        "    });"
-                        : "") +
-                        "    file.classList.add(\"download_item\");" +
+                        "    file.href = fileUrl;" +
+                        (download.Progress >= 0 ? "    " + removeDownloadScript : "") +
+                        "    file.classList.add('download_item');" +
                         "    const headers = document.querySelectorAll('h2');" +
                         "    const duplicateDate = Array.from(headers).some(h2 => h2.textContent.trim() === dateText);" +
                         "    if (!duplicateDate) {" +
@@ -367,8 +371,9 @@ namespace Webwatcher
                         "    div.appendChild(file);" +
                         "    div.appendChild(document.createElement('br'));" +
                         "}" +
-                        "addItem();"
+                        "addItem('" + dateText.Replace("'", "\\'") + "', '" + fileText.Replace("'", "\\'") + "', '" + fileName.Replace("'", "\\'") + "', '" + fileUrl.Replace("'", "\\'") + "', '" + removeDownloadScript.Replace("'", "\\'") + "');"
                     );
+
                 }
                 WebBrowser.ExecuteScriptAsync(
                     "function addPadding() {" +
