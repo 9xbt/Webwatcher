@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Webwatcher
 {
@@ -32,7 +33,12 @@ namespace Webwatcher
                     Downloads.Add(download);
 
                     callback.Continue(download.Path, false);
-                    Parent.Invoke(new Action(() => Parent.OpenPage("webwatcher://downloads", ConfigManager.DownloadsURL)));
+                    Parent.Invoke(new Action(async () =>
+                    {
+                        await Task.Delay(50);
+                        Parent.OpenPage("webwatcher://downloads", ConfigManager.DownloadsURL);
+                        Parent.WebBrowser.Back();
+                    }));
                 }
             }
 
