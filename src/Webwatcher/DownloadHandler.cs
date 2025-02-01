@@ -45,7 +45,7 @@ namespace Webwatcher
             return true;
         }
 
-        public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+        public async void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
         {
             Console.WriteLine(downloadItem.FullPath);
 
@@ -57,6 +57,13 @@ namespace Webwatcher
                 if (download.Cancel)
                 {
                     callback.Cancel();
+                }
+
+                if (download.Progress == 100)
+                {
+                    await Task.Delay(1000);
+                    Downloads.Remove(download);
+                    return;
                 }
 
                 download.Progress = downloadItem.PercentComplete;
