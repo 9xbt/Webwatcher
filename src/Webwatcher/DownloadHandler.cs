@@ -47,16 +47,17 @@ namespace Webwatcher
             if (downloadIndex >= 0)
             {
                 var download = Downloads[downloadIndex];
+
+                if (download.Cancel)
+                {
+                    callback.Cancel();
+                }
+
                 download.Progress = downloadItem.PercentComplete;
                 Downloads[downloadIndex] = download;
             }
 
             Console.WriteLine("Download progress " + downloadItem.PercentComplete);
-
-            if (downloadItem.IsComplete)
-            {
-                Downloads.Remove(GetDownloadByPath(downloadItem.FullPath));
-            }
         }
 
         public static int GetDownloadIndex(string path)

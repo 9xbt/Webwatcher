@@ -169,14 +169,20 @@ namespace Webwatcher
             selectedTab.UrlTextBox.ForeColor = Color.Black;
         }
 
-        public void UpdateDownloads(Download download)
+        public void UpdateDownload(Download download)
         {
             var filename = Path.GetFileName(download.Path);
 
             WebBrowser.ExecuteScriptAsync(
-                "const spans = document.querySelectorAll(\"span\");" +
-                "const current = Array.from(spans).find(span => span.textContent.trim().startsWith(\"" + filename + "\"));" +
-                "current.textContent = \"" + filename + " — " + download.Progress + "% done\";"
+                "function updateDownload() {" +
+                "    const div = document.querySelector('.changelog');" +
+                "    const links = div.querySelectorAll('a.download_item');" +
+                "    let fileLink = Array.from(links).find(a => a.textContent.startsWith(\"" + filename + "\"));" +
+                "    if (fileLink) {" +
+                "        fileLink.textContent = \"" + filename + (download.Progress < 100 ? " — " + download.Progress + "% done\"" : "\"") + ";" +
+                "    }" +
+                "}" +
+                "updateDownload();"
             );
         }
 
@@ -326,15 +332,32 @@ namespace Webwatcher
                     WebBrowser.ExecuteScriptAsync(
                         "function addItem() {" +
                         "    const div = document.querySelector('.changelog');" +
+                        "    const dateText = \"" + fmtDateLong + "\";" +
+                        "    const fileText = \"" + file.Name + (download.Progress >= 0 ? " — " + download.Progress + "% done" : "") + "\";" +
+                        "    let existingFile = Array.from(div.querySelectorAll('a.download_item')).find(a => a.textContent.startsWith(\"" + file.Name + "\"));" +
+                        "    if (existingFile) {" +
+                        "        existingFile.textContent = fileText;" +
+                        "        existingFile.href = \"javascript:webwatcher.showDownloadedFile('" + file.Name + "')\";" +
+                        "        return;" +
+                        "    }" +
                         "    const date = document.createElement('h2');" +
                         "    const file = document.createElement('a');" +
-                        "    date.textContent = \"" + fmtDateLong + "\";" +
-                        "    file.textContent = \"" + file.Name + (download.Progress >= 0 ? " — " + download.Progress + "% done" : "") + "\";" +
+                        "    date.textContent = dateText;" +
+                        "    file.textContent = fileText;" +
                         "    file.href = \"javascript:webwatcher.showDownloadedFile('" + file.Name + "')\";" +
+                        (download.Progress >= 0 ?
+                        "    file.addEventListener('contextmenu', function(event) {" +
+                        "        event.preventDefault();" +
+                        "        webwatcher.removeDownload(\"" + file.Name + "\");" +
+                        "        setTimeout(function() {" +
+                        "            location.reload();" +
+                        "        }, 500);" +
+                        "    });"
+                        : "") +
                         "    file.classList.add(\"download_item\");" +
                         "    const headers = document.querySelectorAll('h2');" +
-                        "    const duplicate = Array.from(headers).some(h2 => h2.textContent.trim() === \"" + fmtDateLong + "\");" +
-                        "    if (!duplicate) {" +
+                        "    const duplicateDate = Array.from(headers).some(h2 => h2.textContent.trim() === dateText);" +
+                        "    if (!duplicateDate) {" +
                         "        const headings = div.querySelectorAll('h2');" +
                         "        if (headings.length > 0) {" +
                         "            div.appendChild(document.createElement('br'));" +

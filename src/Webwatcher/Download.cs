@@ -6,6 +6,7 @@ namespace Webwatcher
     {
         public double Progress;
         public bool Done;
+        public bool Cancel;
         public string URL;
         public string Path;
         public DateTime Date;
@@ -14,6 +15,7 @@ namespace Webwatcher
         {
             Progress = progress;
             Done = done;
+            Cancel = false;
             URL = url;
             Path = path;
             Date = date;

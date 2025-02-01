@@ -5,6 +5,7 @@ const navbar = document.querySelector(".navbar");
 const urlParams = new URLSearchParams(window.location.search);
 
 run_animation();
+setInterval(update, 500);
 
 function run_animation() {
     if (!urlParams.has('disable_animations')) {
@@ -13,7 +14,9 @@ function run_animation() {
 }
 
 function update() {
-    const url = new URL(window.location.href);
-    url.searchParams.set('disable_animations', '');
-    window.location.href = url.toString();
+    //const url = new URL(window.location.href);
+    //url.searchParams.set('disable_animations', '');
+    //window.location.href = url.toString();
+
+    webwatcher.updateDownloads();
 }

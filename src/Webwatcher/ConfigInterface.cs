@@ -1,5 +1,7 @@
 ﻿using CefSharp;
+using System.IO;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Webwatcher
 {
@@ -32,5 +34,29 @@ namespace Webwatcher
 
         public void ShowDownloadedFile(string file)
             => Process.Start("explorer", $"/select,\"{ConfigManager.DownloadPath + @"\" + file}\"");
+
+        public void UpdateDownloads()
+        {
+            foreach (var download in DownloadHandler.Downloads)
+            {
+                Parent.UpdateDownload(download);
+            }
+        }
+
+        public void RemoveDownload(string file)
+        {
+            for (int i = 0; i < DownloadHandler.Downloads.Count; i++)
+            {
+                var download = DownloadHandler.Downloads[i];
+                var filename = Path.GetFileName(download.Path);
+
+                if (filename == file)
+                {
+                    download.Cancel = true;
+                    DownloadHandler.Downloads[i] = download;
+                    return;
+                }
+            }
+        }
     }
 }
