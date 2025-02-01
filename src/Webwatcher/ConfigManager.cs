@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using WindowsFormsAero.TaskDialog;
 
 namespace Webwatcher
 {
@@ -15,7 +19,6 @@ namespace Webwatcher
         internal static string ChangelogURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/changelog.html";
         internal static string ErrorURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/load_error.html";
         internal static string DownloadsURL = "file:///" + Directory.GetCurrentDirectory().Replace('\\', '/') + "/Sites/downloads.html";
-        internal static string DownloadUpdaterPath = Directory.GetCurrentDirectory() + @"\Sites\updateDownload.js";
         internal static string DownloadUpdater = string.Empty;
 
         static ConfigManager()
@@ -43,7 +46,35 @@ namespace Webwatcher
                 }
             }
 
-            DownloadUpdater = File.ReadAllText(DownloadUpdaterPath);
+            DownloadUpdater = File.ReadAllText(Directory.GetCurrentDirectory() + @"\Sites\updateDownload.js");
+        }
+
+        public static bool ShouldUpdate = false;
+
+        public static void CheckForUpdates()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = client.GetAsync("https://raw.githubusercontent.com/9xbt/Webwatcher/refs/heads/main/api/latest_version").Result;
+                response.EnsureSuccessStatusCode();
+
+                string content = response.Content.ReadAsStringAsync().Result;
+                if (Program.Version != content)
+                {
+                    TaskDialog dlg = new TaskDialog("A new update is available", "Webwatcher");
+                        dlg.CommonIcon = CommonIcon.Information;
+                        dlg.Content = "Version " + content + " is available on GitHub";
+                        dlg.UseCommandLinks = true;
+                        dlg.CustomButtons = new CustomButton[] {
+                        new CustomButton(9, "Update"),
+                        new CustomButton(CommonButtonResult.Cancel, "Cancel")
+                    };
+
+                    dlg.ButtonClick += new EventHandler<ClickEventArgs>(CheckForUpdates_ButtonClick);
+
+                    TaskDialogResult results = dlg.Show();
+                }
+            }
         }
 
         public static void Load(ConfigBase config)
@@ -62,6 +93,16 @@ namespace Webwatcher
                 "searchEngine=" + config.SearchEngine,
                 "useHardwareAccel=" + (Config.UseHardwareAccel ? "true" : "false")
             });
+        }
+
+        private static void CheckForUpdates_ButtonClick(object sender, ClickEventArgs e)
+        {
+            switch (e.ButtonID)
+            {
+                case 9:
+                    ShouldUpdate = true;
+                    break;
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ namespace Webwatcher
         {
             try
             {
+                ConfigManager.CheckForUpdates();
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
@@ -24,7 +26,7 @@ namespace Webwatcher
 
                 testApp.Tabs.Add(new TitleBarTab(testApp)
                 {
-                    Content = new TabWindow
+                    Content = new TabWindow(ConfigManager.ShouldUpdate ? "https://github.com/9xbt/Webwatcher/releases/latest" : null)
                     {
                         Text = "New Tab"
                     }

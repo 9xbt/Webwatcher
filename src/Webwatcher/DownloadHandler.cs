@@ -27,7 +27,6 @@ namespace Webwatcher
                 {
                     Uri uri = new Uri(downloadItem.Url);
                     string filename = Path.GetFileName(uri.AbsolutePath).Replace("%20", " ");
-                    Console.WriteLine("Filename: " + filename);
 
                     Download download = new Download(0, false, downloadItem.Url, ConfigManager.DownloadPath + $@"\{filename}", DateTime.Now);
                     Downloads.Add(download);
@@ -47,8 +46,6 @@ namespace Webwatcher
 
         public async void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
         {
-            Console.WriteLine(downloadItem.FullPath);
-
             int downloadIndex = GetDownloadIndex(downloadItem.FullPath);
             if (downloadIndex >= 0)
             {
@@ -69,8 +66,6 @@ namespace Webwatcher
                 download.Progress = downloadItem.PercentComplete;
                 Downloads[downloadIndex] = download;
             }
-
-            Console.WriteLine("Download progress " + downloadItem.PercentComplete);
         }
 
         public static int GetDownloadIndex(string path)
