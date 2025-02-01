@@ -21,7 +21,9 @@
             event.preventDefault();
             webwatcher.removeDownload(fileName);
             setTimeout(function () {
-                location.reload();
+                const url = new URL(window.location.href);
+                url.searchParams.set('disable_animations', '');
+                window.location.href = url.toString();
             }, 500);
         });
     }

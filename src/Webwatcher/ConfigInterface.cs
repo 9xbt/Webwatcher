@@ -1,7 +1,6 @@
 ﻿using CefSharp;
 using System.IO;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace Webwatcher
 {
