@@ -16,3 +16,9 @@ function run_animation() {
 function update() {
     webwatcher.updateDownloads();
 }
+
+function refresh() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('disable_animations', '');
+    window.location.href = url.toString();
+}
